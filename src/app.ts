@@ -7,6 +7,9 @@ import connectMongo from './utils/connection';
 import logger from './utils/logger';
 import userRoutes from './routes/user.routes';
 import deserializeUser from './middleware/deserializeUser';
+import { ErrorResponse } from './types';
+import vehicleRoutes from './routes/vehicle.routes';
+import listingRoutes from './routes/listing.routes';
 
 // Configure dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -42,7 +45,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // Serve static files
-app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, '/build')));
 app.use('/uploads/images', express.static(path.join(__dirname, 'uploads/images')));
 
 // Parse requests of content-type: application/json
@@ -59,20 +62,15 @@ app.use(deserializeUser);
 
 // Routes
 userRoutes(app);
-
-interface ErrorResponse {
-  statusCode?: number;
-  message: string;
-  data?: string;
-}
+vehicleRoutes(app);
+listingRoutes(app);
 
 // Error handling middleware
 app.use((error: ErrorResponse, req: Request, res: Response, next: NextFunction) => {
-  console.error(error);
-  const status: number = error.statusCode || 500;
-  const message: string = error.message;
-  const data: string = error.data || '';
-  res.status(status).json({ message, data });
+  res.status(error.statusCode || 500).send(
+    error
+  );
+  logger.error(error);
 });
 
 

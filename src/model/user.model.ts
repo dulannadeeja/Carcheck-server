@@ -2,7 +2,20 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 const Schema = mongoose.Schema;
 
-type Role = 'buyer-personal' | 'buyer-business' | 'seller-personal' | 'seller-business' | 'admin' | 'service-point';
+export enum AccountType {
+    buyerPersonal = 'buyer-personal',
+    buyerBusiness = 'buyer-business',
+    sellerPersonal = 'seller-personal',
+    sellerBusiness = 'seller-business',
+    admin = 'admin',
+    servicePoint = 'service-point'
+}
+
+export enum BusinessType {
+    SpareParts = "Spare-parts",
+    AutomotiveService = "Automotive-service",
+    VehicleDealership = "Vehicle-dealership",
+}
 
 export interface UserDocument extends mongoose.Document {
     firstName: string;
@@ -11,8 +24,9 @@ export interface UserDocument extends mongoose.Document {
     password: string;
     avatar: string;
     isVerified: boolean;
-    role: Role;
+    accountType: AccountType;
     mobile: string;
+    businessName: string;
     createdAt: Date;
     updatedAt: Date;
     comparePassword(password: string): Promise<boolean>;
@@ -25,8 +39,10 @@ const userSchema = new Schema({
     password: { type: String, required: true, minlength: 6 },
     avatar: { type: String },
     isVerified: { type: Boolean, default: false },
-    role: { type: String, enum: ['buyer-personal', 'buyer-business', 'seller-personal', 'seller-business', 'admin', 'service-point'], default: 'buyer-personal' },
+    accountType: { type: String, enum: Object.values(AccountType), default: AccountType.buyerPersonal },
     mobile: { type: String, required: false },
+    businessName: { type: String, required: false },
+    businessType: { type: String, enum: Object.values(BusinessType), required: false },
 }, { timestamps: true });
 
 // Hash password before saving

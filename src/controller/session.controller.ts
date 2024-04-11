@@ -23,7 +23,21 @@ export const createUserSessionHandler = async (req: Request, res: Response) => {
     const refreshToken = signJwt({ ...user, session: session._id }, { expiresIn: process.env.REFRESH_TOKEN_TIME_TO_LIVE as string });
 
     // send back the access and refresh token
-    return res.send({ accessToken, refreshToken });
+    return res.status(201).send({
+        user: {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            avatar: user.avatar,
+            isVerified: user.isVerified,
+            accountType: user.accountType,
+            mobile: user.mobile,
+            businessName: user.businessName,
+            businessType: user.businessType,
+            accessToken,
+            refreshToken,
+        }
+    });
 }
 
 
@@ -38,11 +52,11 @@ export const getUserSessionsHandler = async (req: Request, res: Response) => {
 
 export async function deleteSessionHandler(req: Request, res: Response) {
     const sessionId = res.locals.user.session;
-  
+
     await updateSession({ _id: sessionId }, { valid: false });
-  
+
     return res.send({
-      accessToken: null,
-      refreshToken: null,
+        accessToken: null,
+        refreshToken: null,
     });
-  }
+}

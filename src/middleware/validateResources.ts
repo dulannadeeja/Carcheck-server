@@ -1,16 +1,32 @@
-import {Request, Response, NextFunction} from 'express';
-import { AnyZodObject } from 'zod';
+import { Request, Response, NextFunction } from 'express';
+import { AnyZodObject, ZodType } from 'zod';
+import { ErrorResponse, FieldError } from '../types';
 
-const validateResources =(schema:AnyZodObject)=> (req: Request, res: Response, next: NextFunction) => {
-    try{
+const validateResources = (schema: ZodType<any, any>) => (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log(req.body);
         schema.parse({
-            body:req.body,
-            query:req.query,
-            params:req.params
+            body: req.body,
+            query: req.query,
+            params: req.params
         });
     }
-    catch(err:any){
-        res.status(400).send(err.errors);
+    catch (err: any) {
+        let fieldErrors: FieldError[] = [];
+        for (const error of err.errors) {
+            const customError: FieldError = {
+                field: error.path[1],
+                message: error.message
+            };
+            fieldErrors.push(customError);
+        }
+        const error: ErrorResponse = {
+            statusCode: 400,
+            message: "Resources Validation Error",
+            fieldErrors: fieldErrors,
+            name: "ResourcesValidationError"
+        }
+        next(error);
         return;
     }
     next();

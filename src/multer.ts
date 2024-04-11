@@ -6,7 +6,7 @@ import { diskStorage, FileFilterCallback } from 'multer';
 // Multer storage configuration
 const storage = diskStorage({
     destination: (req: Request, file: Express.Multer.File, cb: (error: Error | null, destination: string) => void) => {
-        cb(null, 'uploads/images'); // Destination folder for uploaded images
+        cb(null, 'src/uploads/images'); // Destination folder for uploaded images
     },
     filename: (req: Request, file: Express.Multer.File, cb: (error: Error | null, filename: string) => void) => {
         cb(null, uuidv4() + '-' + file.originalname); // Unique filename for each uploaded image
