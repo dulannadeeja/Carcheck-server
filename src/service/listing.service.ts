@@ -1,6 +1,9 @@
-export const createVehicleListing = async (input: ObtainDocumentType<Omit<VehicleListingDocument, 'createdAt' | 'updatedAt'>>) => {
+import { ObtainDocumentType } from "mongoose";
+import listingModel, { ListingDocument } from "../model/listing.model";
+
+export const createVehicleListing = async (input: ObtainDocumentType<Omit<ListingDocument, 'createdAt' | 'updatedAt'>>) => {
     try {
-        return await VehicleListingModel.create(input);
+        return await listingModel.create(input);
     } catch (err: any) {
         throw new Error(err);
     }

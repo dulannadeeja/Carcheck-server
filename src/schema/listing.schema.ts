@@ -1,155 +1,308 @@
 import { z } from "zod";
-import {
-    conditionsArray,
-    driveTypesArray,
-    fuelTypeArray,
-    transmissionArray,
-    listingStateArray,
-    listingTypeArray,
-    Conditions,
-    Transmissions,
-    FuelTypes,
-    DriveTypes,
-    ListingType,
-    ListingState,
-} from "../model/listing.model";
+import { colorOptions, Conditions, conditionsArray, DriveTypes, driveTypesArray, fuelTypeArray, FuelTypes, ListingType, listingTypeArray, transmissionArray, Transmissions } from "../model/listing.model";
 import { vehicleCategoryArray, vehicleMakeArray } from "../model/vehicle.model";
 
 const currentYear = new Date().getFullYear();
 
+// define validators for each field
+
+const titleValidator = z.string().min(1, "Title is need to search your listing, please enter your own.").max(80, "Title must be under 80 characters.");
+
+const conditionValidator = z.string().refine(
+    (condition) => conditionsArray.some((conditionName) => conditionName.toLowerCase() === condition.toLowerCase()),
+    {
+        message: "Please select the condition. It may be Brand New, Pre-Owned or Unregistered",
+    }
+);
+
 const vehicleMakeValidator = z.string().refine(
     (make) => vehicleMakeArray.some((vehicleMake) => vehicleMake.toLowerCase() === make.toLowerCase()),
     {
-        message: "Invalid vehicle make. Please select a valid make from the list.",
+        message: "Please select the vehicle make from the dropdown list.",
     }
 );
+
+const vehicleModelValidator = z.string().min(1, "Please enter the model of the vehicle.");
 
 const vehicleCategoryValidator = z.string().refine(
     (category) => vehicleCategoryArray.some((vehicleCategory) => vehicleCategory.toLowerCase() === category.toLowerCase()),
     {
-        message: "Invalid vehicle category. Please select a valid category from the list.",
+        message: "Please select the shape of the vehicle from the dropdown list.",
     }
 );
 
-const yearValidator = z.number().min(1900, "Year must be 1900 or later.").max(currentYear, `Year cannot exceed the current year (${currentYear}).`);
+const yearValidator = z.number().min(1900, "We do not support for vehicles before 1900.").max(currentYear, `Year cannot exceed the current year (${currentYear}).`);
 
-const photoValidator = z.array(z.string()).min(1, "At least one photo is required.");
+const mileageValidator = z.number().min(0, "Please enter the current mileage of the vehicle.");
+
+const transmissionValidator = z.string().refine((transmission) => transmissionArray.includes(transmission as Transmissions), {
+    message: "Please select the type of transmission.",
+});
+
+const fuelTypeValidator = z.string().refine((fuelType) => fuelTypeArray.includes(fuelType as FuelTypes), {
+    message: "Please select the type of fuel.",
+})
+
+const driveTypeValidator = z.string().refine((driveType) => driveTypesArray.includes(driveType as DriveTypes), {
+    message: "Please select the type of drive.",
+})
+
+const exteriorColorValidator = z.string().refine((color) => colorOptions.includes(color), {
+    message: "Please select the exterior color.",
+})
+
+// im stop here
+const interiorColorValidator = z.string().optional().refine((color) => {
+    if (color) {
+        return colorOptions.includes(color);
+    }
+    return true;
+}, {
+    message: "Please select the interior color.",
+})
+
+const numberOfPreviousOwnersValidator = z.number().min(0, "Previous owners must be 0 or more.");
+
+const descriptionValidator = z.string().min(80, "Description must be at least 80 characters.").max(500, "Description must be under 500 characters.");
+
+const listingTypeValidator = z.string().refine((type) => listingTypeArray.includes(type as ListingType), {
+    message: "Please select the format of the listing, it may Fixed price or auction.",
+})
+
+const imagesValidator = z.array(z.string()).min(1, "Please upload at least one photo.");
 
 const auctionSchema = z.object({
-    duration: z.number().min(1, "Auction duration must be at least 1 day."),
-    startingBid: z.number().min(1, "Starting bid must be 1LKR or more."),
-    startDate: z.date().refine((date) => date >= new Date(), {
-        message: "Auction start date must be today or later.",
-    }),
-    endDate: z.date(),
-    reservePrice: z.number().min(1, "Reserve price must be $1 or more.").optional(),
-    currentBid: z.number().min(1, "Current bid must be $1 or more.").optional(),
+    duration: z.number().optional().default(0),
+    startingBid: z.number().optional().default(0),
+    reservePrice: z.number().optional().default(0),
+    currentBid: z.number().optional().default(0),
     bidders: z.array(z.string()).optional(),
-    maxBid: z.number().min(1, "Maximum bid must be $1 or more.").optional(),
+    maxBid: z.number().optional().default(0),
     maxBidder: z.string().optional(),
-}).refine((data) => data.endDate > data.startDate, {
-    message: "Auction end date must be after the start date.",
-    path: ["endDate"],
 })
 
 const locationSchema = z.object({
-    city: z.string({
-        required_error: "Please enter a city.",
-    }),
-    division: z.string({
-        required_error: "Please enter a division.",
-    }),
-    zipCode: z.string({
-        required_error: "Please enter a zip code.",
-    }),
+    city: z.string().min(1, "Please enter a city."),
+    division: z.string().min(1, "Please enter a divison."),
+    zipCode: z.string().min(1, "Please enter zip code."),
 });
 
-const bodySchema = z.object({
-    make: vehicleMakeValidator,
-    vehicleModel: z.string(
-        {
-            required_error: "Please enter a vehicle model.",
-        }
-    ),
-    category: vehicleCategoryValidator,
-    manufacturedYear: yearValidator,
-    registeredYear: yearValidator,
-    photos: photoValidator,
-    title: z.string().min(1, "Title is required.").max(80, "Title must be under 80 characters."),
-    condition: z.string().refine((condition) => conditionsArray.includes(condition as Conditions), {
-        message: "Invalid condition. Please select a valid condition from the list.",
-    }),
-    mileage: z.number().min(0, "Mileage must be non-negative."),
-    transmission: z.string().refine((transmission) => transmissionArray.includes(transmission as Transmissions), {
-        message: "Invalid transmission type. Please select a valid type from the list.",
-    }),
-    fuelType: z.string().refine((fuelType) => fuelTypeArray.includes(fuelType as FuelTypes), {
-        message: "Invalid fuel type. Please select a valid type from the list.",
-    }),
-    bodyType: vehicleCategoryValidator,
-    driveType: z.string().refine((driveType) => driveTypesArray.includes(driveType as DriveTypes), {
-        message: "Invalid drive type. Please select a valid type from the list.",
-    }),
-    numberOfSeats: z.number().min(1, "Number of seats must be at least 1."),
-    numberOfDoors: z.number().min(1, "Number of doors must be at least 1."),
-    exteriorColor: z.string().min(1, "Exterior color is required."),
-    interiorColor: z.string().min(1, "Interior color is required."),
-    numberOfPreviousOwners: z.number().min(0, "Number of previous owners must be non-negative."),
-    maxFuelConsumption: z.number().min(1, "Maximum fuel consumption must be at least 1 km/L."),
-    minFuelConsumption: z.number().min(1, "Minimum fuel consumption must be at least 1 km/L."),
-    engineCapacity: z.number().min(1, "Engine capacity must be at least 100cc."),
-    description: z.string(
-        {
-            required_error: "Please enter a description.",
-        }
-    )
-        .min(80, "Description must be at least 80 characters.")
-        .max(500, "Description must be under 500 characters."),
-    listingType: z.string({
-        required_error: "Please select a listing type.",
-    }).refine((type) => listingTypeArray.includes(type as ListingType), {
-        message: "Invalid listing type. Please select a valid type from the list.",
-    }),
-    fixedPrice: z.number(
-        {
-            required_error: "Please enter a fixed price.",
-        }
-    ).min(1, "Fixed price must be 1LKR or more."),
-    auction: auctionSchema.optional(),
-    location: locationSchema,
-    state: z.string().refine((state) => listingStateArray.includes(state as ListingState), {
-        message: "Invalid listing state. Please select a valid state from the list.",
-    }),
-    inspectionReport: z.string().optional(),
-    numberOfWatchers: z.number().optional(),
-    watchers: z.array(z.string()).optional(),
-})
-    .refine(({ manufacturedYear, registeredYear }) => manufacturedYear <= registeredYear, {
-        message: "Manufactured year must not exceed the registered year.",
-    })
-    .refine(({ maxFuelConsumption, minFuelConsumption }) => maxFuelConsumption >= minFuelConsumption, {
-        message: "Maximum fuel consumption must be equal to or greater than minimum fuel consumption.",
-    });
 
+// define the schema for the listing
+const bodySchema = z.object({
+    body: z.object({
+        images: imagesValidator,
+        title: titleValidator,
+        make: vehicleMakeValidator,
+        condition: conditionValidator,
+        vehicleModel: vehicleModelValidator,
+        manufacturedYear: yearValidator,
+        registeredYear: yearValidator,
+        mileage: mileageValidator,
+        transmission: transmissionValidator,
+        fuelType: fuelTypeValidator,
+        bodyType: vehicleCategoryValidator,
+        driveType: driveTypeValidator,
+        numberOfPreviousOwners: numberOfPreviousOwnersValidator,
+        exteriorColor: exteriorColorValidator,
+        numberOfSeats: z.number().min(0, "must be 0 or more.").default(0),
+        numberOfDoors: z.number().min(0, "must be 0 or more.").default(0),
+        interiorColor: interiorColorValidator,
+        maxFuelConsumption: z.number().min(0, "Please enter the maximum fuel consumption.").default(0),
+        minFuelConsumption: z.number().min(0, "Please enter the minimum fuel consumption.").default(0),
+        engineCapacity: z.number().min(600, "Engine capacity must be 600cc or more."),
+        description: descriptionValidator,
+        listingType: listingTypeValidator,
+        fixedPrice: z.number().optional().default(0),
+        auction: auctionSchema.optional(),
+        location: locationSchema,
+        isAllowedOffer: z.boolean().optional().default(false),
+        offer: z.object({
+            minimumOffer: z.number().optional().default(0),
+            autoAcceptOffer: z.number().optional().default(0),
+        }).optional()
+    }),
+})
+
+// refine the schema to add custom validations
 const createListingSchema = bodySchema.superRefine((data, ctx) => {
-    if (data.listingType === ListingType.auction && data.auction === undefined) {
+
+    // if listing type is auction, auction details are required
+    if (data.body.listingType === ListingType.auction && data.body.auction) {
+        if (data.body.auction.duration === 0) {
+            ctx.addIssue({
+                path: ["auction", "duration"],
+                message: "Auction duration is required for auction listings",
+                code: z.ZodIssueCode.custom,
+            });
+        }
+        if (data.body.auction.startingBid === 0) {
+            ctx.addIssue({
+                path: ["auction", "startingBid"],
+                message: "Starting bid is required for auction listings",
+                code: z.ZodIssueCode.custom,
+            });
+        }
+        if (data.body.auction.reservePrice === 0) {
+            ctx.addIssue({
+                path: ["auction", "reservePrice"],
+                message: "Reserve price is required for auction listings",
+                code: z.ZodIssueCode.custom,
+            });
+        }
+        if (data.body.fixedPrice !== 0) {
+            ctx.addIssue({
+                path: ["listingType"],
+                message: "Please keep fixed price empty for auction listings",
+                code: z.ZodIssueCode.custom,
+            });
+        }
+    }
+
+    // if listing type is fixed price, fixed price is required
+    if (data.body.listingType === ListingType.fixedPrice && data.body.fixedPrice === 0) {
         ctx.addIssue({
-            path: ["auction"],
-            message: "Auction details are required for auction listings.",
+            path: ["fixedPrice"],
+            message: "Please give a fixed price for the listing",
             code: z.ZodIssueCode.custom,
         });
-    } else if (data.listingType !== ListingType.auction && data.auction !== undefined) {
-        // Optionally, ensure auction details are only provided for auction listings
+
+        if (data.body.auction?.duration !== 0) {
+            ctx.addIssue({
+                path: ["listingType"],
+                message: "Please keep auction duration empty for fixed price listings",
+                code: z.ZodIssueCode.custom,
+            });
+        }
+
+        if (data.body.auction?.startingBid !== 0) {
+            ctx.addIssue({
+                path: ["listingType"],
+                message: "Please keep auction starting bid empty for fixed price listings",
+                code: z.ZodIssueCode.custom,
+            });
+        }
+
+        if (data.body.auction?.reservePrice !== 0) {
+            ctx.addIssue({
+                path: ["listingType"],
+                message: "Please keep auction reserve price empty for fixed price listings",
+                code: z.ZodIssueCode.custom,
+            });
+        }
+    }
+
+    // if accepted offer is enabled, minimum offer required
+    if (data.body.isAllowedOffer) {
+        if (data.body.offer?.minimumOffer === 0) {
+            ctx.addIssue({
+                path: ["offer", "minimumOffer"],
+                message: "Please enter the minimum offer amount",
+                code: z.ZodIssueCode.custom,
+            });
+        }
+    }
+
+    // if max and min fuel consumption is provided, max should be greater than min
+    if (data.body.maxFuelConsumption < data.body.minFuelConsumption) {
         ctx.addIssue({
-            path: ["auction"],
-            message: "Auction details should not be provided for non-auction listings.",
+            path: ["maxFuelConsumption"],
+            message: "Maximum fuel consumption must be higher than minimum.",
+            code: z.ZodIssueCode.custom,
+        });
+    }
+
+    // if manufactured and registered year is provided, registered year should be greater than or equal to manufactured year
+    if (data.body.manufacturedYear > data.body.registeredYear) {
+        ctx.addIssue({
+            path: ["registeredYear"],
+            message: "Registration year should be same or after the manufacture year.",
+            code: z.ZodIssueCode.custom,
+        });
+    }
+
+    // if condition is pre-owned, previous owners should be provided
+    if (data.body.condition === Conditions.preOwned && data.body.numberOfPreviousOwners === 0) {
+        ctx.addIssue({
+            path: ["numberOfPreviousOwners"],
+            message: "Please enter the number of previous owners.",
+            code: z.ZodIssueCode.custom,
+        });
+    }
+
+    // if condition is brand new, previous owners should be 0
+    if (data.body.condition === Conditions.brandNew && data.body.numberOfPreviousOwners !== 0) {
+        ctx.addIssue({
+            path: ["numberOfPreviousOwners"],
+            message: "Brand new vehicles should have 0 previous owners.",
+            code: z.ZodIssueCode.custom,
+        });
+    }
+
+    // if condition is unregistered or brand new, previous owners should be 0
+    if (data.body.condition === Conditions.unregistered || data.body.condition === Conditions.brandNew && data.body.numberOfPreviousOwners !== 0) {
+        ctx.addIssue({
+            path: ["numberOfPreviousOwners"],
+            message: "Unregistered vehicles should have 0 previous owners.",
+            code: z.ZodIssueCode.custom,
+        });
+    }
+
+    // if condition is brand new, mileage should be 0
+    if (data.body.condition === Conditions.brandNew) {
+        if (data.body.mileage !== 0) {
+            ctx.addIssue({
+                path: ["mileage"],
+                message: "Brand new vehicles should have 0 mileage.",
+                code: z.ZodIssueCode.custom,
+            });
+        }
+    }
+
+    // if condition is pre-owned, mileage should be greater than 0
+    if (data.body.condition === Conditions.preOwned && data.body.mileage === 0) {
+        ctx.addIssue({
+            path: ["mileage"],
+            message: "Please enter the mileage of the vehicle.",
             code: z.ZodIssueCode.custom,
         });
     }
 });
 
-export const listingSchema = z.object({
-    body: createListingSchema
-});
+
+// validate a single field
+export const validateField = (fieldName: keyof ListingSchema, value: string): undefined | string => {
+
+    let tempObj = {};
+
+    // if fieldName is a combination of parent and child, split and create the object
+    if (fieldName.includes(".")) {
+        const [parent, child] = fieldName.split(".");
+        tempObj = {
+            [parent]: {
+                [child]: value
+            }
+        };
+    } else {
+        tempObj = { [fieldName]: value };
+    }
+
+    try {
+        listingSchema.parse(tempObj);
+        return undefined;
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            // we only validate one field, return the message for the first error, if exists
+            const firstError = error.errors.find(e => e.path.includes(fieldName as string));
+            if (firstError) {
+                return firstError ? firstError.message : "Invalid field value";
+            }
+
+        }
+        return undefined;
+    }
+}
+
+export const listingSchema = createListingSchema;
 
 export type ListingSchema = z.infer<typeof listingSchema>;

@@ -4,7 +4,6 @@ import { ErrorResponse, FieldError } from '../types';
 
 const validateResources = (schema: ZodType<any, any>) => (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log(req.body);
         schema.parse({
             body: req.body,
             query: req.query,
@@ -12,6 +11,9 @@ const validateResources = (schema: ZodType<any, any>) => (req: Request, res: Res
         });
     }
     catch (err: any) {
+        err.errors.forEach((error: any) => {
+            console.log(error);
+        });
         let fieldErrors: FieldError[] = [];
         for (const error of err.errors) {
             const customError: FieldError = {
