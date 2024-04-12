@@ -9,3 +9,12 @@ export const getDrafts = async (userId: string) => {
         throw new Error(err);
     }
 }
+
+export const getActiveListings = (userId:string) => {
+    try{
+        const activeListings = listingModel.find();
+        return activeListings;
+    }catch(err:any){
+        throw new Error(err);
+    }
+}
