@@ -5,8 +5,17 @@ import logger from '../utils/logger';
 import upload from '../multer';
 
 export const createListingHandler = async (req: Request, res: Response, next: NextFunction) => {
+
+    const user = res.locals.user;
+
+    // set the seller responsible for the listing
+    const listing = {
+        ...req.body,
+        seller: user._id
+    }
+
     try {
-        const response = await createVehicleListing(req.body);
+        const response = await createVehicleListing(listing);
         console.log(response.toJSON());
         return res.status(201).send(response);
     } catch (err: any) {

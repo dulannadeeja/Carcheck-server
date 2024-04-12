@@ -10,6 +10,7 @@ import deserializeUser from './middleware/deserializeUser';
 import { ErrorResponse } from './types';
 import vehicleRoutes from './routes/vehicle.routes';
 import listingRoutes from './routes/listing.routes';
+import sellerRoutes from './routes/seller.routes';
 
 // Configure dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -39,14 +40,13 @@ app.use(cors());
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL as string);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-refresh-token');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   next();
 });
 
 // Serve static files
-app.use(express.static(path.join(__dirname, '/build')));
-app.use('/uploads/images', express.static(path.join(__dirname, 'uploads/images')));
+app.use('/api/images', express.static(path.join(__dirname, 'uploads', 'images')));
 
 // Parse requests of content-type: application/json
 app.use(bodyParser.json());
@@ -64,6 +64,7 @@ app.use(deserializeUser);
 userRoutes(app);
 vehicleRoutes(app);
 listingRoutes(app);
+sellerRoutes(app);
 
 // Error handling middleware
 app.use((error: ErrorResponse, req: Request, res: Response, next: NextFunction) => {

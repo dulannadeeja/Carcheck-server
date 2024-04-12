@@ -1,3 +1,4 @@
+import { cond } from "lodash";
 import mongoose, { ObjectId, Schema } from "mongoose";
 
 export type Auction = {
@@ -360,7 +361,7 @@ export const driveTypesArray = Object.values(DriveTypes);
 export const listingTypeArray = Object.values(ListingType);
 export const listingStateArray = Object.values(ListingState);
 
-export interface ListingDocument{
+export interface ListingDocument {
     make: string;
     model: string;
     manufacturedYear: number;
@@ -400,9 +401,9 @@ export interface ListingDocument{
 }
 
 const auctionSchema = new Schema({
-    duration: { type: Number},
-    startDate: { type: Date},
-    endDate: { type: Date},
+    duration: { type: Number },
+    startDate: { type: Date },
+    endDate: { type: Date },
     startingBid: { type: Number },
     reservePrice: { type: Number },
     currentBid: { type: Number },
@@ -410,8 +411,8 @@ const auctionSchema = new Schema({
 });
 
 const offerSchema = new Schema({
-    minimumOffer: { type: Number},
-    autoAcceptOffer: { type: Number},
+    minimumOffer: { type: Number },
+    autoAcceptOffer: { type: Number },
 });
 
 const locationSchema = new Schema({
@@ -422,23 +423,24 @@ const locationSchema = new Schema({
 });
 
 const listingSchema = new Schema({
-    images: { type: [String]},
-    title: { type: String},
-    make: { type: String},
-    vehicleModel: { type: String},
+    images: { type: [String] },
+    title: { type: String },
+    condition: { type: String },
+    make: { type: String },
+    vehicleModel: { type: String },
     manufacturedYear: { type: Number },
     registeredYear: { type: Number },
     mileage: { type: Number },
-    transmission: { type: String},
-    fuelType: { type: String},
+    transmission: { type: String },
+    fuelType: { type: String },
     bodyType: { type: String },
     driveType: { type: String },
     numberOfDoors: { type: Number },
-    numberOfSeats: { type: Number},
-    exteriorColor: { type: String},
+    numberOfSeats: { type: Number },
+    exteriorColor: { type: String },
     interiorColor: { type: String },
-    numberOfPreviousOwners: { type: Number},
-    engineCapacity: { type: Number},
+    numberOfPreviousOwners: { type: Number },
+    engineCapacity: { type: Number },
     description: { type: String },
     listingType: { type: String },
     fixedPrice: { type: Number },
@@ -446,6 +448,9 @@ const listingSchema = new Schema({
     location: locationSchema,
     isAllowedOffer: { type: Boolean },
     offer: offerSchema,
+    seller: { type: Schema.Types.ObjectId, ref: 'User', required: true }
+}, {
+    timestamps: true
 });
 
 const listingModel = mongoose.model<ListingDocument>('Listing', listingSchema);
