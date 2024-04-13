@@ -11,6 +11,7 @@ import { ErrorResponse } from './types';
 import vehicleRoutes from './routes/vehicle.routes';
 import listingRoutes from './routes/listing.routes';
 import sellerRoutes from './routes/seller.routes';
+import inspectionRoutes from './routes/inspection.routes';
 
 // Configure dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -65,6 +66,7 @@ userRoutes(app);
 vehicleRoutes(app);
 listingRoutes(app);
 sellerRoutes(app);
+inspectionRoutes(app);
 
 // Error handling middleware
 app.use((error: ErrorResponse, req: Request, res: Response, next: NextFunction) => {

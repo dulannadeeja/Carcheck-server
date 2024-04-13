@@ -3,6 +3,9 @@ import { AnyZodObject, ZodType } from 'zod';
 import { ErrorResponse, FieldError } from '../types';
 
 const validateResources = (schema: ZodType<any, any>) => (req: Request, res: Response, next: NextFunction) => {
+
+    console.log(req.body);
+
     try {
         schema.parse({
             body: req.body,
