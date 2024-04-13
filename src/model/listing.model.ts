@@ -361,45 +361,6 @@ export const driveTypesArray = Object.values(DriveTypes);
 export const listingTypeArray = Object.values(ListingType);
 export const listingStateArray = Object.values(ListingState);
 
-export interface ListingDocument {
-    make: string;
-    model: string;
-    manufacturedYear: number;
-    registeredYear: boolean;
-    photos: string[];
-    title: string;
-    condition: string;
-    mileage: number;
-    transmission: string;
-    fuelType: string;
-    bodyType: string;
-    driveType: string;
-    numberOfSeats: number;
-    numberOfDoors: number;
-    ExteriorColor: string;
-    InteriorColor: string;
-    numberOfPreviousOwners: number;
-    maxFuelConsumption: number;
-    minFuelConsumption: number;
-    engineCapacity: number;
-    description: string;
-    listingType: string;
-    fixedPrice: number;
-    auction: Auction;
-    location: {
-        city: string;
-        division: string;
-        zipCode: string;
-    };
-    state: string;
-    inspectionReport: string;
-    numberOfWatchers: number;
-    watchers: string[];
-    createdAt: Date;
-    updatedAt: Date;
-
-}
-
 const auctionSchema = new Schema({
     duration: { type: Number },
     startDate: { type: Date },
@@ -452,6 +413,44 @@ const listingSchema = new Schema({
 }, {
     timestamps: true
 });
+
+// export type from the schema
+export type ListingDocument = mongoose.Document & {
+    images: string[];
+    title: string;
+    condition: string;
+    make: string;
+    vehicleModel: string;
+    manufacturedYear: number;
+    registeredYear: number;
+    mileage: number;
+    transmission: string;
+    fuelType: string;
+    bodyType: string;
+    driveType: string;
+    numberOfDoors: number;
+    numberOfSeats: number;
+    exteriorColor: string;
+    interiorColor: string;
+    numberOfPreviousOwners: number;
+    engineCapacity: number;
+    description: string;
+    listingType: string;
+    fixedPrice: number;
+    auction: Auction;
+    location: {
+        city: string;
+        division: string;
+        zipCode: string;
+        state: string;
+    };
+    isAllowedOffer: boolean;
+    offer: {
+        minimumOffer: number;
+        autoAcceptOffer: number;
+    };
+    seller: Schema.Types.ObjectId;
+}
 
 const listingModel = mongoose.model<ListingDocument>('Listing', listingSchema);
 

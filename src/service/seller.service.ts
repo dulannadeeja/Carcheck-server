@@ -18,3 +18,12 @@ export const getActiveListings = (userId:string) => {
         throw new Error(err);
     }
 }
+
+export const getListing = async (listingId: string) => {
+    try {
+        const listing = await listingModel.findById(listingId);
+        return listing;
+    } catch (err: any) {
+        throw new Error(err);
+    }
+}
