@@ -3,7 +3,8 @@ import listingModel, { ListingDocument } from "../model/listing.model";
 
 export const createVehicleListing = async (input: ObtainDocumentType<Omit<ListingDocument, 'createdAt' | 'updatedAt'>>) => {
     try {
-        return await listingModel.create(input);
+        const listing = await listingModel.create(input);
+        return listing;
     } catch (err: any) {
         throw new Error(err);
     }

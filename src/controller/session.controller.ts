@@ -6,9 +6,10 @@ import { signJwt } from "../utils/jwt.utils";
 
 export const createUserSessionHandler = async (req: Request, res: Response) => {
 
+    console.log(req.body)
     // validate the email and password
     const user = await validatePassword(req.body.email, req.body.password);
-
+    console.log(user)
     if (!user) {
         return res.status(401).send("Invalid username or password.");
     }

@@ -10,6 +10,10 @@ import deserializeUser from './middleware/deserializeUser';
 import { ErrorResponse } from './types';
 import vehicleRoutes from './routes/vehicle.routes';
 import listingRoutes from './routes/listing.routes';
+import sellerRoutes from './routes/seller.routes';
+import inspectionRoutes from './routes/inspection.routes';
+import { createTransporter } from './lib/nodemailer';
+import resourceRoutes from './routes/resourse.routes';
 
 // Configure dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -17,6 +21,16 @@ if (process.env.NODE_ENV !== 'production') {
     path: path.join(__dirname, 'config', '.env'),
   });
 }
+
+// setup nodemailer transport for sending emails
+export const nodemailerTransport = createTransporter({
+  service: process.env.SMTP_SERVICE as string,
+  host: process.env.SMTP_HOST as string,
+  port: parseInt(process.env.SMTP_PORT as string, 10),
+  secure: process.env.SMTP_SECURE === 'true',
+  user: process.env.SMTP_USER as string,
+  pass: process.env.SMTP_PASS as string,
+})
 
 // Handling uncaught exceptions
 process.on('uncaughtException', (err: Error) => {
@@ -39,14 +53,13 @@ app.use(cors());
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL as string);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-refresh-token');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   next();
 });
 
 // Serve static files
-app.use(express.static(path.join(__dirname, '/build')));
-app.use('/uploads/images', express.static(path.join(__dirname, 'uploads/images')));
+app.use('/api/images', express.static(path.join(__dirname, 'uploads', 'images')));
 
 // Parse requests of content-type: application/json
 app.use(bodyParser.json());
@@ -64,6 +77,9 @@ app.use(deserializeUser);
 userRoutes(app);
 vehicleRoutes(app);
 listingRoutes(app);
+sellerRoutes(app);
+inspectionRoutes(app);
+resourceRoutes(app);
 
 // Error handling middleware
 app.use((error: ErrorResponse, req: Request, res: Response, next: NextFunction) => {

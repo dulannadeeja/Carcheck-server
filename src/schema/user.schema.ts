@@ -1,6 +1,6 @@
 import { object, string, TypeOf, z } from 'zod'
 
-import { AccountType, BusinessType } from '../model/user.model';
+import { AccountType } from '../model/user.model';
 
 
 export const createUserSchema = object({
@@ -26,10 +26,9 @@ export const createUserSchema = object({
 
         }).optional(),
         accountType: z.nativeEnum(AccountType).default(AccountType.buyerPersonal),
-        mobile: string().optional(),
+        phone: string().optional(),
         isVerified: z.boolean().default(false),
         businessName: string().optional(),
-        businessType: z.nativeEnum(BusinessType).optional()
     })
 }).refine((data) => {
     // Conditionally requiring `businessName` based on `accountType`
@@ -40,15 +39,6 @@ export const createUserSchema = object({
 }, {
     message: "Business name is required for business accounts",
     path: ["businessName"]
-}).refine((data) => {
-    // Conditionally requiring `businessType` based on `accountType`
-    if (data.body.accountType === AccountType.sellerBusiness && !data.body.businessType) {
-        return false; // Fails the refinement if `accountType` is business but `businessType` is not provided
-    }
-    return true;
-}, {
-    message: "Business type is required for business accounts",
-    path: ["businessType"]
 });
 
 

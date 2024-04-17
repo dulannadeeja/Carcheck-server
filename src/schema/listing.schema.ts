@@ -120,7 +120,10 @@ const bodySchema = z.object({
         offer: z.object({
             minimumOffer: z.number().optional().default(0),
             autoAcceptOffer: z.number().optional().default(0),
-        }).optional()
+        }).optional(),
+
+        // fiels that are not getting from the user
+        seller: z.string().optional(),
     }),
 })
 
