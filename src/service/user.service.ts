@@ -11,8 +11,8 @@ export async function createUser(input: ObtainDocumentType<Omit<UserDocument, 'c
     }
 }
 
-export async function validatePassword(email: string, password: string) {
-    const user: UserDocument | null = await UserModel.findOne({ email });
+export async function validatePassword(emailOrUsername: string, password: string) {
+    const user: UserDocument | null = await UserModel.findOne({ email: emailOrUsername });
     if (!user) {
         return false;
     }
@@ -25,4 +25,17 @@ export async function validatePassword(email: string, password: string) {
 
 export async function findUser(query: FilterQuery<UserDocument>) {
     return UserModel.findOne(query).lean();
+}
+
+export async function findUserAndUpdate(input: ObtainDocumentType<Omit<UserDocument,
+    'createdAt' | 'updatedAt' | 'comparePassword'>>) {
+    try {
+        return await UserModel.findOneAndUpdate({ _id: input._id },
+            { $set: { ...input } },
+            { new: true }
+        )
+    }
+    catch (err: any) {
+        throw new Error(err)
+    }
 }

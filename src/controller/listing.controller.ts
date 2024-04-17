@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { createVehicleListing } from '../service/listing.service';
 import { ErrorResponse } from '../types';
 import logger from '../utils/logger';
-import upload from '../multer';
+import { sendErrorToErrorHandlingMiddleware } from '../utils/errorHandling';
 
 export const createListingHandler = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -54,12 +54,6 @@ export const uploadListingImagesHandler = async (req: Request, res: Response, ne
             });
 
     } catch (err: any) {
-        logger.error(err);
-        const error: ErrorResponse = {
-            statusCode: err.statusCode || 500,
-            message: err.message,
-            name: err.name
-        }
-        next(error);
+        sendErrorToErrorHandlingMiddleware(err, next);
     }
 }

@@ -10,8 +10,15 @@ import deserializeUser from './middleware/deserializeUser';
 import { ErrorResponse } from './types';
 import vehicleRoutes from './routes/vehicle.routes';
 import listingRoutes from './routes/listing.routes';
+<<<<<<< Updated upstream
+=======
 import sellerRoutes from './routes/seller.routes';
 import inspectionRoutes from './routes/inspection.routes';
+import { createTransporter } from './lib/nodemailer';
+import resourceRoutes from './routes/resourse.routes';
+
+
+>>>>>>> Stashed changes
 
 // Configure dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -19,6 +26,16 @@ if (process.env.NODE_ENV !== 'production') {
     path: path.join(__dirname, 'config', '.env'),
   });
 }
+
+// setup nodemailer transport for sending emails
+export const nodemailerTransport = createTransporter({
+  service: process.env.SMTP_SERVICE as string,
+  host: process.env.SMTP_HOST as string,
+  port: parseInt(process.env.SMTP_PORT as string, 10),
+  secure: process.env.SMTP_SECURE === 'true',
+  user: process.env.SMTP_USER as string,
+  pass: process.env.SMTP_PASS as string,
+})
 
 // Handling uncaught exceptions
 process.on('uncaughtException', (err: Error) => {
@@ -65,8 +82,12 @@ app.use(deserializeUser);
 userRoutes(app);
 vehicleRoutes(app);
 listingRoutes(app);
+<<<<<<< Updated upstream
+=======
 sellerRoutes(app);
 inspectionRoutes(app);
+resourceRoutes(app);
+>>>>>>> Stashed changes
 
 // Error handling middleware
 app.use((error: ErrorResponse, req: Request, res: Response, next: NextFunction) => {

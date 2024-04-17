@@ -7,6 +7,9 @@ export interface ErrorResponse extends Error {
 export type FieldError = {
     field: string;
     message: string;
+<<<<<<< Updated upstream
+}
+=======
 }
 
 // accountType enum
@@ -15,8 +18,8 @@ export enum AccountType {
     buyerBusiness = 'buyer-business',
     sellerPersonal = 'seller-personal',
     sellerBusiness = 'seller-business',
-    admin = 'admin',
-    servicePoint = 'service-point'
+    serviceProvider = 'service-provider',
+    admin = 'admin'
 }
 
 // businessType enum
@@ -24,6 +27,20 @@ export enum BusinessType {
     SpareParts = "Spare-parts",
     AutomotiveService = "Automotive-service",
     VehicleDealership = "Vehicle-dealership",
+    VehicleSeller = "Vehicle-seller",
+}
+
+// types of ownership of sri lankan businesses
+export enum typeOfOwnerships {
+    Partnership = "Partnership",
+    SoleProprietorship = "Sole-proprietorship",
+    Corporation = "Corporation",
+    nonProfit = "Non-profit",
+    Cooperative = "Cooperative",
+    limitedCompany = "Limited-company",
+    soleTrader = "Sole-traders",
+    merger = "Merger",
+    unlimitedLiability = "Unlimited-liability",
 }
 
 export interface User {
@@ -46,3 +63,4 @@ export interface BuyerBusiness extends User {
 
 
 
+>>>>>>> Stashed changes
