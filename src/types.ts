@@ -7,9 +7,6 @@ export interface ErrorResponse extends Error {
 export type FieldError = {
     field: string;
     message: string;
-<<<<<<< Updated upstream
-}
-=======
 }
 
 // accountType enum
@@ -61,6 +58,3 @@ export interface BuyerBusiness extends User {
     buinessType: BusinessType;
 }
 
-
-
->>>>>>> Stashed changes

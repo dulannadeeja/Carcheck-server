@@ -10,15 +10,10 @@ import deserializeUser from './middleware/deserializeUser';
 import { ErrorResponse } from './types';
 import vehicleRoutes from './routes/vehicle.routes';
 import listingRoutes from './routes/listing.routes';
-<<<<<<< Updated upstream
-=======
 import sellerRoutes from './routes/seller.routes';
 import inspectionRoutes from './routes/inspection.routes';
 import { createTransporter } from './lib/nodemailer';
 import resourceRoutes from './routes/resourse.routes';
-
-
->>>>>>> Stashed changes
 
 // Configure dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -82,12 +77,9 @@ app.use(deserializeUser);
 userRoutes(app);
 vehicleRoutes(app);
 listingRoutes(app);
-<<<<<<< Updated upstream
-=======
 sellerRoutes(app);
 inspectionRoutes(app);
 resourceRoutes(app);
->>>>>>> Stashed changes
 
 // Error handling middleware
 app.use((error: ErrorResponse, req: Request, res: Response, next: NextFunction) => {
