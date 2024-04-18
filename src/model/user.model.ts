@@ -18,6 +18,11 @@ export enum BusinessType {
     VehicleDealership = "Vehicle-dealership",
 }
 
+export interface UserDocs {
+    docType: string;
+    docName: string;
+}
+
 export interface UserDocument extends mongoose.Document {
     firstName: string;
     lastName: string;
@@ -31,6 +36,7 @@ export interface UserDocument extends mongoose.Document {
     createdAt: Date;
     updatedAt: Date;
     comparePassword(password: string): Promise<boolean>;
+    userDocs: UserDocs[];
 }
 
 const addressSchema = new Schema({
@@ -61,6 +67,11 @@ const financialInfoSchema = new Schema({
     branchCode: { type: String, required: true },
 })
 
+const userDocsSchema = new Schema({
+    docType: { type: String, required: true },
+    docName: { type: String, required: true }
+})
+
 const userSchema = new Schema({
     accountType: { type: String, enum: Object.values(AccountType), default: AccountType.buyerPersonal },
     phone: { type: String, required: false },
@@ -74,6 +85,7 @@ const userSchema = new Schema({
     password: { type: String, required: true, minlength: 6 },
     avatar: { type: String },
     isVerified: { type: Boolean, default: false },
+    userDocs: { type: [userDocsSchema], required: false}
 }, { timestamps: true });
 
 // Hash password before saving

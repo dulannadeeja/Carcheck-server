@@ -7,7 +7,7 @@ import { ErrorResponse } from "../types";
 
 export const createInspectionScheduleHandler = async (req: Request, res: Response, next: NextFunction) => {
     const userId = res.locals.user._id
-
+    
 
     const inspectionObj: ObtainDocumentType<Omit<InspectionDocument, 'createdAt' | 'updatedAt'>> = {
         serviceProvider: userId, // this id need to be change to the id of service provider

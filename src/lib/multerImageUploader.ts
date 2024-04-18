@@ -18,7 +18,9 @@ const fileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallb
     if (
         file.mimetype === 'image/png' ||
         file.mimetype === 'image/jpg' ||
-        file.mimetype === 'image/jpeg'
+        file.mimetype === 'image/jpeg' ||
+        file.mimetype === 'image/gif' ||    
+        file.mimetype === 'image/webp'
     ) {
         cb(null, true); // Accept the file
     } else {
@@ -27,7 +29,7 @@ const fileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallb
 };
 
 // Multer upload configuration
-const upload = multer({
+const uploadImage = multer({
     storage: storage,
     fileFilter: fileFilter,
     limits: {
@@ -36,4 +38,4 @@ const upload = multer({
     },
 });
 
-export default upload;
+export default uploadImage;

@@ -1,8 +1,8 @@
-import { FilterQuery, ObtainDocumentType } from 'mongoose';
+import { FilterQuery, ObtainDocumentType, UpdateQuery } from 'mongoose';
 import UserModel, { UserDocument } from '../model/user.model';
 import { omit } from 'lodash';
 
-export async function createUser(input: ObtainDocumentType<Omit<UserDocument, 'createdAt' | 'updatedAt' | 'comparePassword'>>) {
+export async function createUser(input: ObtainDocumentType<Omit<UserDocument, 'createdAt' | 'updatedAt' | 'comparePassword' | 'userDocs'>>) {
     try {
         return await UserModel.create(input);
     }
@@ -27,15 +27,18 @@ export async function findUser(query: FilterQuery<UserDocument>) {
     return UserModel.findOne(query).lean();
 }
 
-export async function findUserAndUpdate(input: ObtainDocumentType<Omit<UserDocument,
-    'createdAt' | 'updatedAt' | 'comparePassword'>>) {
+export async function findUserAndUpdate(
+    query: FilterQuery<UserDocument>,
+    update: UpdateQuery<Omit<UserDocument, 'createdAt' | 'updatedAt' | 'comparePassword'>>
+): Promise<ObtainDocumentType<Omit<UserDocument, 'createdAt' | 'updatedAt' | 'comparePassword'>> | null> {
     try {
-        return await UserModel.findOneAndUpdate({ _id: input._id },
-            { $set: { ...input } },
-            { new: true }
-        )
-    }
-    catch (err: any) {
-        throw new Error(err)
+        const updatedUser = await UserModel.findOneAndUpdate(
+            query,
+            { ...update },
+            { new: true, safe: true, upsert: false }
+        ).exec();
+        return updatedUser?.toJSON() ?? null;
+    } catch (err:any) {
+        throw new Error(err);
     }
 }
