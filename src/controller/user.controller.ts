@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { createUser, findUser, findUserAndUpdate } from "../service/user.service";
 import { CreateUserInput } from "../schema/user.schema";
 import { omit } from "lodash"
-import userModel, { UserDocument } from "../model/user.model";
+import userModel, { UserDocs, UserDocument } from "../model/user.model";
 import { ErrorResponse } from "../types";
 import { sendErrorToErrorHandlingMiddleware } from "../utils/errorHandling";
 import { sendOTP, sendVerificationEmail } from "../service/notification.service";
@@ -125,33 +125,68 @@ export const verifyOTPHandler = async (req: Request, res: Response, next: NextFu
 export const createSellerHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = res.locals.user._id;
-        // find the user with the given id
-        const user = await findUser({ _id: userId });
-        if (!user) {
-            const error: ErrorResponse = {
-                statusCode: 404,
-                message: "User not found",
-                name: "UserNotFoundError"
-            }
-            throw error;
+
+        // Find the existing user
+        const existingUser = await findUser({ _id: userId });
+        if (!existingUser) {
+            throw { statusCode: 404, message: "User not found", name: "UserNotFoundError" };
         }
-        // ready input for creating a seller
-        const input: ObtainDocumentType<Omit<UserDocument,
-            'createdAt' | 'updatedAt' | 'comparePassword' | 'password' | 'avatar'>> = {
-            ...user,
+
+        // Prepare the update data
+        const updateData = {
             ...req.body,
             firstName: req.body.personalInfo.firstName,
             lastName: req.body.personalInfo.lastName,
+        };
+
+        // Update the user
+        const updatedUser = await findUserAndUpdate(
+            { _id: userId },
+            { $set: updateData }
+        );
+
+        if (!updatedUser) {
+            throw { statusCode: 404, message: "Failed to update user", name: "UpdateError" };
         }
-        const seller = await findUserAndUpdate(input);
-        const outputSeller = omit(seller?.toJSON(), 'password');
+
+        // Exclude the password field from the output
+        const outputSeller = omit(updatedUser, ['password', 'comparePassword']);
+
         return res.status(201).send(outputSeller);
     } catch (err: any) {
-        const error = {
-            statusCode: err.statusCode || 500,
-            message: err.message,
-            name: err.name
-        }
-        next(error);
+        sendErrorToErrorHandlingMiddleware(err, next);
     }
 }
+
+export const sellerDocumentsHandler = async (req: Request, res: Response, next: NextFunction) => {
+    const user = res.locals.user;
+
+    // Identity document data
+    const identityDoc: UserDocs = {
+        docType: req.body.identityDocType as string,
+        docName: req.body.identityDoc as string
+    };
+
+    // Business document data
+    const businessDoc: UserDocs = {
+        docType: req.body.businessDocType as string,
+        docName: req.body.businessDoc as string
+    };
+
+    try {
+        const updateData = {
+            $push: { userDocs: { $each: [identityDoc, businessDoc] } }
+        };
+
+        const result = await findUserAndUpdate({ _id: user._id }, updateData);
+
+        if (!result) {
+            return res.status(404).send({ message: 'User not found' });
+        }
+        return res.status(200).send({
+            message: 'Documents uploaded successfully'
+        });
+    } catch (err) {
+        sendErrorToErrorHandlingMiddleware(err, next);
+    }
+};

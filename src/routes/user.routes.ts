@@ -1,5 +1,5 @@
 import { Express } from "express";
-import { checkUserExistsHandler, createSellerHandler, createUserHandler, sendPhoneOTPHandler, verifyOTPHandler } from "../controller/user.controller";
+import { checkUserExistsHandler, createSellerHandler, createUserHandler, sellerDocumentsHandler, sendPhoneOTPHandler, verifyOTPHandler } from "../controller/user.controller";
 import validateResources from "../middleware/validateResources";
 import { createUserSchema } from "../schema/user.schema";
 import { createUserSessionHandler, deleteSessionHandler, getUserSessionsHandler } from "../controller/session.controller";
@@ -7,6 +7,7 @@ import createSessionSchema from "../schema/session.schema";
 import requireUser from "../middleware/requireUser";
 import verificationSchema from "../schema/verification.schema";
 import { sellerSchema } from "../schema/seller.schema";
+import { sellerDocsSchema } from "../schema/sellerDocs.schema";
 function userRoutes(app: Express) {
   app.post('/api/users', validateResources(createUserSchema), createUserHandler);
   app.post('/api/sessions', validateResources(createSessionSchema), createUserSessionHandler)
@@ -16,6 +17,7 @@ function userRoutes(app: Express) {
   app.post('/api/users/verification/send', requireUser, validateResources(verificationSchema), sendPhoneOTPHandler)
   app.post('/api/users/verification/verify', requireUser, validateResources(verificationSchema), verifyOTPHandler)
   app.post('/api/users/seller/register', requireUser, validateResources(sellerSchema), createSellerHandler)
+  app.post('/api/users/seller/documents', requireUser,validateResources(sellerDocsSchema), sellerDocumentsHandler);
 }
 
 export default userRoutes;

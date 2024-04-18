@@ -9,6 +9,17 @@ export type FieldError = {
     message: string;
 }
 
+export enum IdentityVerificationDocType {
+    nationalId = "national-id",
+    passport = "passport",
+    drivingLicense = "driving-license",
+}
+
+export enum BusinessVerificationDocType {
+    businessRegistration = "business-registration",
+    bankDocument = "bank-document",
+}
+
 // accountType enum
 export enum AccountType {
     buyerPersonal = 'buyer-personal',
