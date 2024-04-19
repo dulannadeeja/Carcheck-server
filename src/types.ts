@@ -51,6 +51,16 @@ export enum typeOfOwnerships {
     unlimitedLiability = "Unlimited-liability",
 }
 
+// account status enum
+export enum AccountStatus {
+    buyingActive = "buying-active",
+    sellingActive = "selling-active",
+    requestPending = "request-pending",
+    docsNeeded = "docs-needed",
+    suspended = "suspended",
+    sellingRestricted = "selling-restricted",
+}
+
 export interface User {
     email: string;
     password: string;

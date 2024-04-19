@@ -60,6 +60,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 // Serve static files
 app.use('/api/images', express.static(path.join(__dirname, 'uploads', 'images')));
+app.use('/api/pdfs', express.static(path.join(__dirname, 'uploads', 'pdfs')));
 
 // Parse requests of content-type: application/json
 app.use(bodyParser.json());

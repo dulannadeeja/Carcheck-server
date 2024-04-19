@@ -1,15 +1,16 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser, findUser, findUserAndUpdate } from "../service/user.service";
+import { createUser, findUser, findUserAndUpdate, getFilteredUsers } from "../service/user.service";
 import { CreateUserInput } from "../schema/user.schema";
 import { omit } from "lodash"
 import userModel, { UserDocs, UserDocument } from "../model/user.model";
-import { ErrorResponse } from "../types";
+import { AccountType, ErrorResponse } from "../types";
 import { sendErrorToErrorHandlingMiddleware } from "../utils/errorHandling";
 import { sendOTP, sendVerificationEmail } from "../service/notification.service";
 import { saveOTP, validateOTP } from "../service/verification.service";
 import { ObtainDocumentType } from "mongoose";
 import { VerificationDocument, VerificationType } from "../model/verification.model";
 import { add } from "date-fns";
+import _ = require("lodash");
 
 export async function createUserHandler(req: Request<{}, {}, CreateUserInput["body"]>, res: Response, next: NextFunction) {
     try {
@@ -190,3 +191,62 @@ export const sellerDocumentsHandler = async (req: Request, res: Response, next: 
         sendErrorToErrorHandlingMiddleware(err, next);
     }
 };
+
+export const getFilteredUsersHandler = async (req: Request, res: Response, next: NextFunction) => {
+    const query = req.query;
+
+    // construct the query object
+    const filterQuery: any = {};
+
+    // check if the query object has the required fields
+    if (query.accountType) {
+        const accountType = query.accountType as string[];
+        filterQuery.accountType = { $in: accountType };
+    }
+
+    if (query.accountStatus) {
+        const accountStatus = query.accountStatus as string[];
+        filterQuery.accountStatus = { $in: accountStatus };
+    }
+
+    try {
+        const users = await getFilteredUsers(filterQuery);
+        return res.status(200).send(users);
+    } catch (err) {
+        sendErrorToErrorHandlingMiddleware(err, next);
+    }
+};
+
+export const updateUserStatusHandler = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.params.id
+    const accountStatus = req.body.accountStatus;
+    try {
+        if (!userId || !accountStatus) {
+            const error: ErrorResponse = {
+                statusCode: 400,
+                message: "Missing data",
+                name: "MissingDataError"
+            }
+            throw error;
+        }
+
+        if (accountStatus === undefined) {
+            const error: ErrorResponse = {
+                statusCode: 400,
+                message: "Account status is required",
+                name: "MissingDataError"
+            }
+            throw error;
+        }
+
+        const user = await findUserAndUpdate({ _id: userId }, { $set: { status:accountStatus } });
+        if (!user) {
+            return res.status(404).send({ message: "User not found" });
+        }
+        console.log(user);
+        return res.status(200).send({ message: "User status updated successfully" });
+    } catch (err) {
+        sendErrorToErrorHandlingMiddleware(err, next);
+    }
+
+}

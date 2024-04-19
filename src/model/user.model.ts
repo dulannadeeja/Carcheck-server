@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-import { typeOfOwnerships } from '../types';
+import { AccountStatus, typeOfOwnerships } from '../types';
+import { z } from 'zod';
 const Schema = mongoose.Schema;
 
 export enum AccountType {
@@ -29,7 +30,7 @@ export interface UserDocument extends mongoose.Document {
     email: string;
     password: string;
     avatar: string;
-    isVerified: boolean;
+    status: AccountStatus;
     accountType: AccountType;
     mobile: string;
     businessName: string;
@@ -37,6 +38,7 @@ export interface UserDocument extends mongoose.Document {
     updatedAt: Date;
     comparePassword(password: string): Promise<boolean>;
     userDocs: UserDocs[];
+    isDocsVerified: boolean;
 }
 
 const addressSchema = new Schema({
@@ -56,7 +58,7 @@ const personalInfoSchema = new Schema({
 const businessInfoSchema = new Schema({
     businessName: { type: String, required: true },
     businessReqNo: { type: String, required: true },
-    businessWebsite: { type: String, required: false},
+    businessWebsite: { type: String, required: false },
     ownershipType: { type: String, enum: Object.values(typeOfOwnerships), required: true }
 })
 
@@ -84,8 +86,8 @@ const userSchema = new Schema({
     lastName: { type: String, required: true },
     password: { type: String, required: true, minlength: 6 },
     avatar: { type: String },
-    isVerified: { type: Boolean, default: false },
-    userDocs: { type: [userDocsSchema], required: false}
+    status: { type: String, enum: Object.values(AccountStatus), default: AccountStatus.buyingActive },
+    userDocs: { type: [userDocsSchema], required: false },
 }, { timestamps: true });
 
 // Hash password before saving

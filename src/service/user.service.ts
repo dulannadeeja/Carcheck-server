@@ -38,7 +38,15 @@ export async function findUserAndUpdate(
             { new: true, safe: true, upsert: false }
         ).exec();
         return updatedUser?.toJSON() ?? null;
-    } catch (err:any) {
+    } catch (err: any) {
         throw new Error(err);
+    }
+}
+
+export async function getFilteredUsers(query: FilterQuery<ObtainDocumentType<UserDocument>>) {
+    try {
+        return await UserModel.find(query).select('-password').lean();
+    } catch (err: any) {
+        throw new Error(err)
     }
 }
