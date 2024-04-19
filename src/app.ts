@@ -14,6 +14,7 @@ import sellerRoutes from './routes/seller.routes';
 import inspectionRoutes from './routes/inspection.routes';
 import { createTransporter } from './lib/nodemailer';
 import resourceRoutes from './routes/resourse.routes';
+import notificationRoutes from './routes/notification.route';
 
 // Configure dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -81,6 +82,7 @@ listingRoutes(app);
 sellerRoutes(app);
 inspectionRoutes(app);
 resourceRoutes(app);
+notificationRoutes(app);
 
 // Error handling middleware
 app.use((error: ErrorResponse, req: Request, res: Response, next: NextFunction) => {

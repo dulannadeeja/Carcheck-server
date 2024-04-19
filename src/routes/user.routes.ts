@@ -1,5 +1,5 @@
 import { Express } from "express";
-import { checkUserExistsHandler, createSellerHandler, createUserHandler, getFilteredUsersHandler, sellerDocumentsHandler, sendPhoneOTPHandler, updateUserStatusHandler, verifyOTPHandler } from "../controller/user.controller";
+import { checkUserExistsHandler, createSellerHandler, createUserHandler, getFilteredUsersHandler, sellerDocumentsHandler, sendOTPHandler, updateUserStatusHandler, verifyOTPHandler } from "../controller/user.controller";
 import validateResources from "../middleware/validateResources";
 import { createUserSchema } from "../schema/user.schema";
 import { createUserSessionHandler, deleteSessionHandler, getUserSessionsHandler } from "../controller/session.controller";
@@ -15,7 +15,7 @@ function userRoutes(app: Express) {
   app.get('/api/sessions', requireUser, getUserSessionsHandler)
   app.delete('/api/sessions', requireUser, deleteSessionHandler)
   app.post('/api/users/search', checkUserExistsHandler)
-  app.post('/api/users/verification/send', requireUser, validateResources(verificationSchema), sendPhoneOTPHandler)
+  app.post('/api/users/verification/send', requireUser, validateResources(verificationSchema), sendOTPHandler)
   app.post('/api/users/verification/verify', requireUser, validateResources(verificationSchema), verifyOTPHandler)
   app.post('/api/users/seller/register', requireUser, validateResources(sellerSchema), createSellerHandler)
   app.post('/api/users/seller/documents', requireUser,validateResources(sellerDocsSchema), sellerDocumentsHandler);

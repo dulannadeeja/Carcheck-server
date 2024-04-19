@@ -1,6 +1,7 @@
 import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
-import * as nodemailer from 'nodemailer';
 import { nodemailerTransport } from "../app";
+import { FilterQuery, ObtainDocumentType } from "mongoose";
+import notificationModel, { NotificationDocument } from "../model/notification.model";
 
 export const sendOTP = async (phone: string, otp: string) => {
     // Create an SNSClient instance using environment variables for configuration
@@ -77,3 +78,38 @@ export const sendPasswordResetEmail = async (recipientEmail: string, resetUrl: s
 
     await nodemailerTransport.sendMail(mailOptions);
 };
+
+export const createNotification = async (input: ObtainDocumentType<Omit<NotificationDocument, 'createdAt' | 'updatedAt'>>) => {
+    try {
+        const notification = await notificationModel.create(input);
+        return notification;
+    } catch (err: any) {
+        throw new Error(err);
+    }
+}
+
+export const filterNotifications = async (query: FilterQuery<NotificationDocument>) => {
+    try {
+        return await notificationModel.find(query).lean()
+    } catch (err: any) {
+        throw new Error(err);
+    }
+}
+
+export const updateNotification = async (query: FilterQuery<NotificationDocument>, update: Partial<NotificationDocument>) => {
+    try {
+        return await notificationModel.findOneAndUpdate(query, update, { new: true }).lean();
+    }
+    catch (err: any) {
+        throw new Error(err);
+    }
+}
+
+export const updateNotifications = async (query: FilterQuery<NotificationDocument>, update: Partial<NotificationDocument>) => {
+    try {
+        return await notificationModel.updateMany(query, update, { new: true }).lean();
+    }
+    catch (err: any) {
+        throw new Error(err);
+    }
+}

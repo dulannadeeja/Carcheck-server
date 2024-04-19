@@ -5,12 +5,13 @@ import { omit } from "lodash"
 import userModel, { UserDocs, UserDocument } from "../model/user.model";
 import { AccountType, ErrorResponse } from "../types";
 import { sendErrorToErrorHandlingMiddleware } from "../utils/errorHandling";
-import { sendOTP, sendVerificationEmail } from "../service/notification.service";
+import { createNotification, sendOTP, sendVerificationEmail, updateNotification } from "../service/notification.service";
 import { saveOTP, validateOTP } from "../service/verification.service";
 import { ObtainDocumentType } from "mongoose";
 import { VerificationDocument, VerificationType } from "../model/verification.model";
 import { add } from "date-fns";
 import _ = require("lodash");
+import { NotificationType } from "../model/notification.model";
 
 export async function createUserHandler(req: Request<{}, {}, CreateUserInput["body"]>, res: Response, next: NextFunction) {
     try {
@@ -51,9 +52,12 @@ export const checkUserExistsHandler = async (req: Request, res: Response, next: 
     }
 }
 
-export const sendPhoneOTPHandler = async (req: Request, res: Response, next: NextFunction) => {
+export const sendOTPHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = res.locals.user;
+        const userId = user._id;
+
+        console.log("user id"+userId);
 
         // genarate a random 6 digit OTP
         // const otp = Math.floor(100000 + Math.random() * 900000)
@@ -64,8 +68,32 @@ export const sendPhoneOTPHandler = async (req: Request, res: Response, next: Nex
 
         if (req.body.type === VerificationType.phone) {
             target = `+94${req.body.target}`;
+            // check if this phone number is already verified, if so, return an error
+            const existingUser = await findUser({ phone: req.body.target });
+            console.log(existingUser);
+            // check the number is using by another user
+            if (existingUser && existingUser._id.toString() !== userId) {
+                const error: ErrorResponse = {
+                    statusCode: 409,
+                    message: "Phone number already in use",
+                    name: "PhoneInUseError"
+                }
+                throw error;
+            }
             await sendOTP(target, otpString);
         } else {
+            // check if this email is already verified, if so, return an error
+            const existingUser = await findUser({ email: target });
+            console.log(existingUser);
+            // check the email is using by another user
+            if (existingUser && existingUser._id.toString() !== userId) {
+                const error: ErrorResponse = {
+                    statusCode: 409,
+                    message: "Email already in use",
+                    name: "EmailInUseError"
+                }
+                throw error;
+            }
             await sendVerificationEmail(user.firstName, target, otpString);
         }
 
@@ -153,6 +181,24 @@ export const createSellerHandler = async (req: Request, res: Response, next: Nex
         // Exclude the password field from the output
         const outputSeller = omit(updatedUser, ['password', 'comparePassword']);
 
+        // set the notification
+        await createNotification({
+            user: userId,
+            title: "Selling Account Created",
+            message: "We congratulate you on creating a selling account with us. You are one step behind to start selling your products.",
+            type: NotificationType.ACTIVITY,
+            link: "/selling"
+        })
+
+        // another notification
+        await createNotification({
+            user: userId,
+            title: "Complete Your Profile",
+            message: "Please complete your profile to start selling your products. we need some information to verify your account.",
+            type: NotificationType.SYSTEM,
+            link: "/seller/upload-documents"
+        })
+
         return res.status(201).send(outputSeller);
     } catch (err: any) {
         sendErrorToErrorHandlingMiddleware(err, next);
@@ -194,6 +240,8 @@ export const sellerDocumentsHandler = async (req: Request, res: Response, next: 
 
 export const getFilteredUsersHandler = async (req: Request, res: Response, next: NextFunction) => {
     const query = req.query;
+
+    console.log(query);
 
     // construct the query object
     const filterQuery: any = {};
@@ -239,11 +287,24 @@ export const updateUserStatusHandler = async (req: Request, res: Response, next:
             throw error;
         }
 
-        const user = await findUserAndUpdate({ _id: userId }, { $set: { status:accountStatus } });
+        const user = await findUserAndUpdate({ _id: userId }, { $set: { status: accountStatus } });
+        await createNotification({
+            user: userId,
+            title: "Account Status Updated",
+            message: `Your account status has been updated to ${accountStatus}`,
+            type: NotificationType.ACTIVITY
+        });
+
+        
         if (!user) {
             return res.status(404).send({ message: "User not found" });
         }
-        console.log(user);
+
+        // set account activation notification to inactive
+        await updateNotification({ user: userId, title: "Complete Your Profile"},
+            { isActive: false } 
+        );
+
         return res.status(200).send({ message: "User status updated successfully" });
     } catch (err) {
         sendErrorToErrorHandlingMiddleware(err, next);
