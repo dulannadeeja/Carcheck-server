@@ -3,7 +3,7 @@ import { createUser, findUser, findUserAndUpdate, getFilteredUsers } from "../se
 import { CreateUserInput } from "../schema/user.schema";
 import { omit } from "lodash"
 import userModel, { UserDocs, UserDocument } from "../model/user.model";
-import { AccountType, ErrorResponse } from "../types";
+import { AccountStatus, AccountType, ErrorResponse } from "../types";
 import { sendErrorToErrorHandlingMiddleware } from "../utils/errorHandling";
 import { createNotification, sendOTP, sendVerificationEmail, updateNotification } from "../service/notification.service";
 import { saveOTP, validateOTP } from "../service/verification.service";
@@ -166,6 +166,7 @@ export const createSellerHandler = async (req: Request, res: Response, next: Nex
             ...req.body,
             firstName: req.body.personalInfo.firstName,
             lastName: req.body.personalInfo.lastName,
+            status: AccountStatus.docsNeeded
         };
 
         // Update the user
