@@ -242,25 +242,48 @@ export const sellerDocumentsHandler = async (req: Request, res: Response, next: 
 export const getFilteredUsersHandler = async (req: Request, res: Response, next: NextFunction) => {
     const query = req.query;
 
+    console.log("Query: ");
     console.log(query);
+
+    // extract the query parameters
+    const limit = query.limit ? parseInt(query.limit as string) : 10;
+    const page = query.page ? parseInt(query.page as string) : 1;
+    const accountType = query.accountType ? query.accountType as string : undefined;
+    const accountStatus = query.accountStatus ? query.accountStatus as string : undefined;
+
+    // make the array of account types
+    const accountTypes = accountType ? accountType.split(",") : undefined;
+
+    //make the array of account status
+    const accountStatuses = accountStatus ? accountStatus.split(",") : undefined;
 
     // construct the query object
     const filterQuery: any = {};
+    const options ={
+        limit,
+        page
+    }
 
     // check if the query object has the required fields
     if (query.accountType) {
-        const accountType = query.accountType as string[];
-        filterQuery.accountType = { $in: accountType };
+        filterQuery.accountType = { $in: accountTypes };
     }
 
     if (query.accountStatus) {
-        const accountStatus = query.accountStatus as string[];
-        filterQuery.accountStatus = { $in: accountStatus };
+        filterQuery.status = { $in: accountStatuses };
     }
 
     try {
-        const users = await getFilteredUsers(filterQuery);
-        return res.status(200).send(users);
+        const users = await getFilteredUsers(filterQuery, options);
+        const total = await userModel.countDocuments(filterQuery);
+        
+        return res.status(200).send({
+            data: users,
+            total,
+            page,
+            totalPages: Math.ceil(total / limit)
+        })
+
     } catch (err) {
         sendErrorToErrorHandlingMiddleware(err, next);
     }

@@ -1,7 +1,5 @@
 import { z } from "zod";
-import { colorOptions, Conditions, conditionsArray, DriveTypes, driveTypesArray, fuelTypeArray, FuelTypes, ListingType, listingTypeArray, transmissionArray, Transmissions } from "../model/listing.model";
-import { vehicleCategoryArray, vehicleMakeArray } from "../model/vehicle.model";
-
+import { Conditions, conditionsArray,ListingType, listingTypeArray } from "../model/listing.model";
 const currentYear = new Date().getFullYear();
 
 // define validators for each field
@@ -15,51 +13,26 @@ const conditionValidator = z.string().refine(
     }
 );
 
-const vehicleMakeValidator = z.string().refine(
-    (make) => vehicleMakeArray.some((vehicleMake) => vehicleMake.toLowerCase() === make.toLowerCase()),
-    {
-        message: "Please select the vehicle make from the dropdown list.",
-    }
-);
+const vehicleMakeValidator = z.string().min(1, "Please select the make of the vehicle.")
 
 const vehicleModelValidator = z.string().min(1, "Please enter the model of the vehicle.");
 
-const vehicleCategoryValidator = z.string().refine(
-    (category) => vehicleCategoryArray.some((vehicleCategory) => vehicleCategory.toLowerCase() === category.toLowerCase()),
-    {
-        message: "Please select the shape of the vehicle from the dropdown list.",
-    }
-);
+const vehicleCategoryValidator = z.string().min(1, "Please select the category of the vehicle.");
 
 const yearValidator = z.number().min(1900, "We do not support for vehicles before 1900.").max(currentYear, `Year cannot exceed the current year (${currentYear}).`);
 
 const mileageValidator = z.number().min(0, "Please enter the current mileage of the vehicle.");
 
-const transmissionValidator = z.string().refine((transmission) => transmissionArray.includes(transmission as Transmissions), {
-    message: "Please select the type of transmission.",
-});
+const transmissionValidator = z.string().min(1, "Please select the type of transmission.");
 
-const fuelTypeValidator = z.string().refine((fuelType) => fuelTypeArray.includes(fuelType as FuelTypes), {
-    message: "Please select the type of fuel.",
-})
+const fuelTypeValidator = z.string().min(1, "Please select the type of fuel.");
 
-const driveTypeValidator = z.string().refine((driveType) => driveTypesArray.includes(driveType as DriveTypes), {
-    message: "Please select the type of drive.",
-})
+const driveTypeValidator = z.string().min(1, "Please select the drive type.");
 
-const exteriorColorValidator = z.string().refine((color) => colorOptions.includes(color), {
-    message: "Please select the exterior color.",
-})
+const exteriorColorValidator = z.string().min(1, "Please select the exterior color.");
 
-// im stop here
-const interiorColorValidator = z.string().optional().refine((color) => {
-    if (color) {
-        return colorOptions.includes(color);
-    }
-    return true;
-}, {
-    message: "Please select the interior color.",
-})
+
+const interiorColorValidator = z.string().optional()
 
 const numberOfPreviousOwnersValidator = z.number().min(0, "Previous owners must be 0 or more.");
 
@@ -76,9 +49,6 @@ const auctionSchema = z.object({
     startingBid: z.number().optional().default(0),
     reservePrice: z.number().optional().default(0),
     currentBid: z.number().optional().default(0),
-    bidders: z.array(z.string()).optional(),
-    maxBid: z.number().optional().default(0),
-    maxBidder: z.string().optional(),
 })
 
 const locationSchema = z.object({
@@ -271,40 +241,6 @@ const createListingSchema = bodySchema.superRefine((data, ctx) => {
         });
     }
 });
-
-
-// validate a single field
-export const validateField = (fieldName: keyof ListingSchema, value: string): undefined | string => {
-
-    let tempObj = {};
-
-    // if fieldName is a combination of parent and child, split and create the object
-    if (fieldName.includes(".")) {
-        const [parent, child] = fieldName.split(".");
-        tempObj = {
-            [parent]: {
-                [child]: value
-            }
-        };
-    } else {
-        tempObj = { [fieldName]: value };
-    }
-
-    try {
-        listingSchema.parse(tempObj);
-        return undefined;
-    } catch (error) {
-        if (error instanceof z.ZodError) {
-            // we only validate one field, return the message for the first error, if exists
-            const firstError = error.errors.find(e => e.path.includes(fieldName as string));
-            if (firstError) {
-                return firstError ? firstError.message : "Invalid field value";
-            }
-
-        }
-        return undefined;
-    }
-}
 
 export const listingSchema = createListingSchema;
 

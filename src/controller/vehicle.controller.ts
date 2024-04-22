@@ -92,9 +92,6 @@ export const getVehicleModelsHandler = async (req: Request, res: Response, next:
         const count = await countDocuments(filters);
         const vehicles = await findVehicles(filters, options);
 
-        // Log found vehicles (optional)
-        console.log(vehicles);
-
         // Respond with data and pagination details
         return res.status(200).json({
             data: vehicles,

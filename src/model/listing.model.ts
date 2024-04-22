@@ -48,9 +48,9 @@ export enum ListingType {
 }
 
 export enum ListingState {
-    pending = 'Pending',
+    draft = 'Draft',
     active = 'Active',
-    inactive = 'Inactive',
+    unsold = 'Unsold',
     sold = 'Sold'
 }
 
@@ -363,12 +363,9 @@ export const listingStateArray = Object.values(ListingState);
 
 const auctionSchema = new Schema({
     duration: { type: Number },
-    startDate: { type: Date },
-    endDate: { type: Date },
     startingBid: { type: Number },
     reservePrice: { type: Number },
-    currentBid: { type: Number },
-    bidders: [{ type: String }],
+    currentBid: { type: Number }
 });
 
 const offerSchema = new Schema({
@@ -380,14 +377,14 @@ const locationSchema = new Schema({
     city: { type: String },
     division: { type: String },
     zipCode: { type: String },
-    state: { type: String },
 });
 
 const listingSchema = new Schema({
     images: { type: [String] },
     title: { type: String },
-    condition: { type: String },
     make: { type: String },
+    status: { type: String, enum: listingStateArray, default: ListingState.draft},
+    condition: { type: String },
     vehicleModel: { type: String },
     manufacturedYear: { type: Number },
     registeredYear: { type: Number },
@@ -396,11 +393,13 @@ const listingSchema = new Schema({
     fuelType: { type: String },
     bodyType: { type: String },
     driveType: { type: String },
-    numberOfDoors: { type: Number },
-    numberOfSeats: { type: Number },
-    exteriorColor: { type: String },
-    interiorColor: { type: String },
     numberOfPreviousOwners: { type: Number },
+    exteriorColor: { type: String },
+    numberOfSeats: { type: Number },
+    numberOfDoors: { type: Number },
+    interiorColor: { type: String },
+    maxFuelConsumption: { type: Number },
+    minFuelConsumption: { type: Number },
     engineCapacity: { type: Number },
     description: { type: String },
     listingType: { type: String },
@@ -416,6 +415,7 @@ const listingSchema = new Schema({
 
 // export type from the schema
 export type ListingDocument = mongoose.Document & {
+    status: ListingState
     images: string[];
     title: string;
     condition: string;

@@ -43,10 +43,19 @@ export async function findUserAndUpdate(
     }
 }
 
-export async function getFilteredUsers(query: FilterQuery<ObtainDocumentType<UserDocument>>) {
+export async function getFilteredUsers(query: FilterQuery<ObtainDocumentType<UserDocument>>, options: { limit: number, page: number }) {
     try {
-        return await UserModel.find(query).select('-password').lean();
+        return await UserModel.find(query).select('-password').limit(options.limit).skip((options.page - 1) * options.limit).lean();
     } catch (err: any) {
         throw new Error(err)
+    }
+}
+
+export async function countUsers(query: FilterQuery<UserDocument>) {
+    try {
+        return await UserModel.countDocuments(query);
+    }
+    catch (err: any) {
+        throw new Error(err);
     }
 }

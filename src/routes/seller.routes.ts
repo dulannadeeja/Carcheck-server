@@ -1,13 +1,8 @@
 import { Express } from "express";
-
-
-import { getActiveListingsHandler, getDraftsHandler, getListingHandler } from "../controller/seller.controller";
-import requireSeller from "../middleware/requireSeller";
+import { getSellerListingsHandler } from "../controller/seller.controller";
 
 function sellerRoutes(app: Express) { 
-  app.get('/api/seller/drafts', requireSeller,getDraftsHandler)
-  app.get('/api/seller/active', requireSeller,getActiveListingsHandler)
-  app.get('/api/seller/listing/:id', requireSeller, getListingHandler)
+  app.get('/api/seller/listings',getSellerListingsHandler)
 }
 
 export default sellerRoutes;
