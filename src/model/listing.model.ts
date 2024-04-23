@@ -1,16 +1,6 @@
 import { cond } from "lodash";
 import mongoose, { ObjectId, Schema } from "mongoose";
 
-export type Auction = {
-    duration: number;
-    startDate: Date;
-    endDate: Date;
-    startingBid: number;
-    reservePrice: number;
-    currentBid: number;
-    bidders: string[];
-}
-
 export enum Conditions {
     brandNew = 'Brand New',
     preOwned = 'Pre-Owned',
@@ -361,11 +351,24 @@ export const driveTypesArray = Object.values(DriveTypes);
 export const listingTypeArray = Object.values(ListingType);
 export const listingStateArray = Object.values(ListingState);
 
+export type Auction = {
+    duration: number;
+    startingBid: number;
+    reservePrice?: number;
+    startingDate: Date;
+    bids: ObjectId[];
+    maxBid?: number;
+    maxBidder?: ObjectId;
+}
+
 const auctionSchema = new Schema({
-    duration: { type: Number },
-    startingBid: { type: Number },
+    duration: { type: Number , required: true},
+    startingBid: { type: Number , required: true},
     reservePrice: { type: Number },
-    currentBid: { type: Number }
+    startingDate: { type: Date , required: true},
+    bids : { type: [Schema.Types.ObjectId], ref: 'Bid' },
+    maxBid: { type: Number },
+    maxBidder: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
 const offerSchema = new Schema({
@@ -404,11 +407,12 @@ const listingSchema = new Schema({
     description: { type: String },
     listingType: { type: String },
     fixedPrice: { type: Number },
-    auction: auctionSchema,
+    auction: { type: auctionSchema, required: false},
     location: locationSchema,
     isAllowedOffer: { type: Boolean },
     offer: offerSchema,
-    seller: { type: Schema.Types.ObjectId, ref: 'User', required: true }
+    seller: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    isDeleted: { type: Boolean, default: false }
 }, {
     timestamps: true
 });
@@ -450,6 +454,7 @@ export type ListingDocument = mongoose.Document & {
         autoAcceptOffer: number;
     };
     seller: Schema.Types.ObjectId;
+    isDeleted: boolean;
 }
 
 const listingModel = mongoose.model<ListingDocument>('Listing', listingSchema);

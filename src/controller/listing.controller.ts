@@ -1,18 +1,23 @@
 import { Request, Response, NextFunction } from 'express';
-import { createVehicleListing, findListing, updateListing } from '../service/listing.service';
+import { createVehicleListing, findListing, findOneAndDeleteListing, updateListing } from '../service/listing.service';
 import { ErrorResponse } from '../types';
 import logger from '../utils/logger';
 import { sendErrorToErrorHandlingMiddleware } from '../utils/errorHandling';
-import { ListingState } from '../model/listing.model';
+import { ListingDocument, ListingState, ListingType } from '../model/listing.model';
+import { ObtainDocumentType } from 'mongoose';
 
 export const createListingHandler = async (req: Request, res: Response, next: NextFunction) => {
 
     const user = res.locals.user;
+    const dateNow = new Date();
 
-    // set the seller responsible for the listing
-    const listing = {
+    const listing:ObtainDocumentType<Omit<ListingDocument, 'createdAt' | 'updatedAt'>> = {
         ...req.body,
-        seller: user._id
+        seller: user._id,
+        auction:{
+            ...req.body.auction,
+            startingDate: req.body.listingType === ListingType.auction ? dateNow : undefined,
+        }
     }
 
     try {
@@ -47,8 +52,13 @@ export const getListingHandler = async (req: Request, res: Response, next: NextF
             }
             throw error;
         }
-
-        return res.status(200).send(listing);
+        const response = {
+            data: listing,
+            message: "Listing found",
+            statusCode: 200,
+            success: true
+        }
+        return res.status(200).send(response);
     } catch (err: any) {
         sendErrorToErrorHandlingMiddleware(err, next);
     }
@@ -56,7 +66,7 @@ export const getListingHandler = async (req: Request, res: Response, next: NextF
 
 export const updateListingHandler = async (req: Request, res: Response, next: NextFunction) => {
 
-    const {listingId} = req.params;
+    const { listingId } = req.params;
     const updates = req.body;
 
     console.log(updates);
@@ -64,7 +74,7 @@ export const updateListingHandler = async (req: Request, res: Response, next: Ne
     // update listing data safely by restricting the fields that cannot be updated
     const restrictedFields = ['seller', 'createdAt', 'updatedAt'];
 
-    if(!updates) {
+    if (!updates) {
         return res.status(400).send({ message: "No updates provided" });
     }
 
@@ -74,6 +84,13 @@ export const updateListingHandler = async (req: Request, res: Response, next: Ne
             delete updates[update];
         }
     });
+
+    // if listing is in auction, recal the auction starting date
+    if (updates.listingType === ListingType.auction && updates.listingState === ListingState.active) {
+        updates.auction = {
+            startingDate: new Date()
+        }
+    }
 
     try {
         const updatedListing = await updateListing({
@@ -97,6 +114,32 @@ export const updateListingHandler = async (req: Request, res: Response, next: Ne
 
 
 }
+
+export const deleteListingHandler = async (req: Request, res: Response, next: NextFunction) => {
+
+    const { listingId } = req.params;
+
+    try {
+        const deletedListing = await findOneAndDeleteListing({
+            _id: listingId
+        })
+
+        if (!deletedListing) {
+            const error: ErrorResponse = {
+                statusCode: 404,
+                message: "Listing not found",
+                name: "ListingNotFoundError"
+            }
+            throw error;
+        }
+
+        return res.status(200).send(deletedListing);
+    }
+    catch (err: any) {
+        sendErrorToErrorHandlingMiddleware(err, next);
+    }
+}
+
 
 export const uploadListingImagesHandler = async (req: Request, res: Response, next: NextFunction) => {
 

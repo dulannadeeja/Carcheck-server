@@ -12,7 +12,7 @@ export const createVehicleListing = async (input: ObtainDocumentType<Omit<Listin
 
 export const findListing = async (query: FilterQuery<ListingDocument>) => {
     try {
-        return await listingModel.findOne(query).lean();
+        return await listingModel.findOne(query).populate('seller').lean();
     }
     catch (err: any) {
         throw new Error(err);
@@ -23,7 +23,10 @@ export const findListings = async (query: FilterQuery<ListingDocument>, options:
 
     try {
         // find the listings
-        return await listingModel.find(query, null, options).lean();
+        return await listingModel.find({
+            ...query,
+            isDeleted: false
+        }, null, options).populate('seller').lean();
     } catch (err: any) {
         throw new Error(err);
     }
@@ -45,6 +48,18 @@ export const updateListing = async (query: FilterQuery<ListingDocument>, updates
         }).lean();
         return updatedListing;
     } catch (error:any) {
+        throw new Error(error);
+    }
+}
+
+export const findOneAndDeleteListing = async (query: FilterQuery<ListingDocument>) => {
+    try {
+        return await listingModel.findOneAndUpdate(query, {
+            isDeleted: true
+        }, {
+            new: true
+        })
+    }catch (error:any) {
         throw new Error(error);
     }
 }
