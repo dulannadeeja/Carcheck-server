@@ -361,12 +361,39 @@ export type Auction = {
     maxBidder?: ObjectId;
 }
 
+export type ListingSortingOption = [
+    "createdAt",
+    "manufacturedYear",
+    "mileage",
+    "listingType",
+    "fixedPrice"
+]
+
+export interface ListingFilters {
+    search?: string;
+    sortBy: ListingSortingOption;
+    sortOrder: 'asc' | 'desc';
+    condition?: Conditions;
+    make?: { $regex: string; $options: 'i' };
+    vehicleModel?: { $regex: string; $options: 'i' };
+    mileage?: { $gte?: number; $lte?: number };
+    manufacturedYear?: { $gte?: number; $lte?: number };
+    currentPrice?: { $gte?: number; $lte?: number };
+    transmission?: { $regex: string; $options: 'i' };
+    fuelType?: { $regex: string; $options: 'i' };
+    driveType?: { $regex: string; $options: 'i' };
+    listingType?: ListingType;
+    status?: ListingState;
+    isDeleted?: boolean;
+    $or?: Array<{ [key: string]: { $regex: string; $options: 'i' } }>;
+}
+
 const auctionSchema = new Schema({
     duration: { type: Number , required: true},
     startingBid: { type: Number , required: true},
     reservePrice: { type: Number },
     startingDate: { type: Date , required: true},
-    bids : { type: [Schema.Types.ObjectId], ref: 'Bid' },
+    bids : [{ type: Schema.Types.ObjectId, ref: 'Bid' }],
     maxBid: { type: Number },
     maxBidder: { type: Schema.Types.ObjectId, ref: 'User' }
 });

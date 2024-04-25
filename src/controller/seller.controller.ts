@@ -36,6 +36,7 @@ export const getSellerListingsHandler = async (req: Request, res: Response, next
         // get listings
         const listings = await findListings(filters, options);
         const count = await countListings(filters);
+        console.log('Listings:', listings);
         return res.status(200).send({
             data: listings,
             total: count,

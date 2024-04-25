@@ -27,6 +27,7 @@ export const createUserSessionHandler = async (req: Request, res: Response, next
         // send back the access and refresh token
         return res.status(201).send({
             user: {
+                _id: user._id,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
