@@ -28,13 +28,13 @@ export const findVehicle = async (query: FilterQuery<VehicleDocument>) => {
 
 export const findVehicles = async (
     filters: FilterQuery<VehicleDocument>,
-    options: QueryOptions & { limit: number; skip: number; sort?: { [key: string]: 1 | -1 } }
+    options: QueryOptions
 ): Promise<VehicleDocument[]> => {
     try {
         const results = await VehicleModel.find(filters)
         .populate('make')
-            .limit(options.limit)
-            .skip(options.skip)
+            .limit(options.limit || 1000000)
+            .skip(options.skip || 0)
             .sort(options.sort || {})
             .exec();
         return results;

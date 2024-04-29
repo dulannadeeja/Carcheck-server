@@ -15,7 +15,7 @@ export const validateOTP = async (target: string, code: string) => {
     try {
         
         const otpDoc = await verificationModel.findOne({ target, code, expiresAt: { $gt: new Date() } });
-        console.log(otpDoc);
+       
         if (!otpDoc) {
             return false;
         }

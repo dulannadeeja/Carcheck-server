@@ -373,15 +373,16 @@ export interface ListingFilters {
     search?: string;
     sortBy: ListingSortingOption;
     sortOrder: 'asc' | 'desc';
-    condition?: Conditions;
-    make?: { $regex: string; $options: 'i' };
-    vehicleModel?: { $regex: string; $options: 'i' };
+    condition?: { $in: Conditions[]}
+    make?: { $in: string[]};
+    vehicleModel?: { $in: string[]};
     mileage?: { $gte?: number; $lte?: number };
     manufacturedYear?: { $gte?: number; $lte?: number };
     currentPrice?: { $gte?: number; $lte?: number };
-    transmission?: { $regex: string; $options: 'i' };
-    fuelType?: { $regex: string; $options: 'i' };
-    driveType?: { $regex: string; $options: 'i' };
+    transmission?: { $in: string[] };
+    fuelType?: { $in: string[] };
+    driveType?: { $in: string[] };
+    bodyType?: { $in: string[] };
     listingType?: ListingType;
     status?: ListingState;
     isDeleted?: boolean;
@@ -389,10 +390,10 @@ export interface ListingFilters {
 }
 
 const auctionSchema = new Schema({
-    duration: { type: Number , required: true},
-    startingBid: { type: Number , required: true},
+    duration: { type: Number },
+    startingBid: { type: Number },
     reservePrice: { type: Number },
-    startingDate: { type: Date , required: true},
+    startingDate: { type: Date },
     bids : [{ type: Schema.Types.ObjectId, ref: 'Bid' }],
     maxBid: { type: Number },
     maxBidder: { type: Schema.Types.ObjectId, ref: 'User' }
@@ -439,7 +440,13 @@ const listingSchema = new Schema({
     isAllowedOffer: { type: Boolean },
     offer: offerSchema,
     seller: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    isDeleted: { type: Boolean, default: false }
+    isDeleted: { type: Boolean, default: false },
+    sellerType: { type: String },
+    draftCreatedAt: { type: Date },
+    draftUpdatedAt: { type: Date },
+    publishedAt:  { type: Date },
+    endDate: { type: Date },
+    currentPrice: { type: Number },
 }, {
     timestamps: true
 });
@@ -482,8 +489,14 @@ export type ListingDocument = mongoose.Document & {
     };
     seller: Schema.Types.ObjectId;
     isDeleted: boolean;
+    sellerType: string;
+    draftCreatedAt: Date;
+    draftUpdatedAt: Date;
+    publishedAt: Date;
+    endDate: Date;
+    currentPrice: number;
 }
 
-const listingModel = mongoose.model<ListingDocument>('Listing', listingSchema);
+const ListingModel = mongoose.model<ListingDocument>('Listing', listingSchema);
 
-export default listingModel;
+export default ListingModel;

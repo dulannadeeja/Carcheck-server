@@ -24,7 +24,6 @@ export const markAllAsRead = async (req: Request, res: Response, next: NextFunct
         }, {
             read: true
         });
-        console.log(notification);
         return res.send(notification);
     } catch (err) {
         sendErrorToErrorHandlingMiddleware(err, next);

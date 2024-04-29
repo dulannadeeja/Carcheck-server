@@ -21,7 +21,6 @@ export const updateSpecHandler = async (req: Request, res: Response, next: NextF
 
     const { id } = req.params;
     const { name,specType } = req.body;
-    console.log(name,specType);
 
     try {
         const spec = await updateSpec(id, name, specType as keyof SpecsDocument);

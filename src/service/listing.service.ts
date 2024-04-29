@@ -1,4 +1,4 @@
-import { FilterQuery, FlattenMaps, ObtainDocumentType, QueryOptions } from "mongoose";
+import { FilterQuery, ObtainDocumentType, QueryOptions } from "mongoose";
 import listingModel, { ListingDocument, ListingState, ListingType } from "../model/listing.model";
 import { add } from "date-fns";
 
@@ -17,7 +17,7 @@ export const findListing = async (query: FilterQuery<ListingDocument>) => {
             path: 'auction.bids',
             model: 'Bid',
         }).lean();
-        console.log(listing?.auction.bids);
+        
         if (!listing) {
             throw new Error('Listing not found');
         }
@@ -82,7 +82,7 @@ export const findListings = async (query: FilterQuery<ListingDocument>, options:
         }, null, options).populate('seller').populate('auction.bids').lean();
 
         if (listings.length === 0) {
-            throw new Error('Listings not found');
+            return [];
         }
 
         // make the array of all listings

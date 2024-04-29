@@ -33,7 +33,7 @@ export const sendOTP = async (phone: string, otp: string) => {
     try {
         const command = new PublishCommand(params);
         const response = await snsClient.send(command);
-        console.log(response);
+        
         return response;
     } catch (err) {
         console.error(err);

@@ -30,6 +30,20 @@ export enum AccountType {
     admin = 'admin'
 }
 
+export enum SoldBy {
+    individual = 'Individual Seller',
+    dealer = 'Vehicle Dealer',
+    serviceProvider = 'Service Provider',
+}
+
+export enum SortOptionsType {
+    bestMatch = "best_match",
+    endingSoonest = "ending_soonest",
+    newlyListed = "newly_listed",
+    priceLowest = "price_lowest",
+    priceHighest = "price_highest",
+}
+
 // businessType enum
 export enum BusinessType {
     SpareParts = "Spare-parts",

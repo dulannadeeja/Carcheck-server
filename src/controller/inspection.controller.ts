@@ -20,7 +20,6 @@ export const createInspectionScheduleHandler = async (req: Request, res: Respons
     try {
 
         const inspection = await createInspectionSchedule(inspectionObj);
-        console.log(inspection.toJSON());
         return res.status(201).json(inspection);
 
     } catch (err: any) {

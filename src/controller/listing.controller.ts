@@ -1,30 +1,54 @@
 import { Request, Response, NextFunction } from 'express';
 import { countListings, createVehicleListing, findListing, findListings, findOneAndDeleteListing, updateListing } from '../service/listing.service';
-import { ErrorResponse } from '../types';
+import { ErrorResponse, SoldBy, SortOptionsType } from '../types';
 import logger from '../utils/logger';
 import { sendErrorToErrorHandlingMiddleware } from '../utils/errorHandling';
 import { Conditions, ListingDocument, ListingFilters, ListingState, ListingType } from '../model/listing.model';
-import { ObjectId, ObtainDocumentType } from 'mongoose';
+import { ObtainDocumentType, QueryOptions } from 'mongoose';
 import { add } from 'date-fns';
 import { createBid } from '../service/bid.service';
+import { AccountType, UserDocument } from '../model/user.model';
 
 export const createListingHandler = async (req: Request, res: Response, next: NextFunction) => {
 
     const user = res.locals.user;
-    const dateNow = new Date();
+    const draftId = req.body.draftId;
 
-    const listing: ObtainDocumentType<Omit<ListingDocument, 'createdAt' | 'updatedAt'>> = {
+    if (!draftId) {
+        const error: ErrorResponse = {
+            statusCode: 400,
+            message: "Draft ID is required",
+            name: "DraftIdError"
+        }
+        throw error;
+    }
+
+    const dateNow = new Date();
+    const listingValidity = add(dateNow, { days: 30 });
+
+    const updates:Partial<ListingDocument> = {
         ...req.body,
-        seller: user._id,
+        status: ListingState.active,
         auction: {
             ...req.body.auction,
             startingDate: req.body.listingType === ListingType.auction ? dateNow : undefined,
-        }
+            bids: [],
+            maxBid: req.body.listingType === ListingType.auction ? req.body.auction.startingBid : undefined,
+            maxBidder: undefined
+        },
+        sellerType: user.accountType,
+        seller: user._id,
+        publishedAt: dateNow,
+        draftUpdatedAt: dateNow,
+        endDate: req.body.listingType === ListingType.auction ? add(dateNow, { days: req.body.auction.duration }) : listingValidity,
+        currentPrice: req.body.listingType === ListingType.auction ? req.body.auction.startingBid
+        : req.body.fixedPrice
     }
 
     try {
-        const response = await createVehicleListing(listing);
-        console.log(response.toJSON());
+        const response = await updateListing({
+            _id: draftId
+        },updates);
         return res.status(201).send(response);
     } catch (err: any) {
         logger.error(err);
@@ -35,6 +59,34 @@ export const createListingHandler = async (req: Request, res: Response, next: Ne
         }
         next(error);
     }
+}
+
+export const createDraftHandler = async (req: Request, res: Response, next: NextFunction) => {
+    
+        const user = res.locals.user;
+    
+        const listing: ObtainDocumentType<Omit<ListingDocument, 'createdAt' | 'updatedAt'>> = {
+            ...req.body,
+            seller: user._id,
+            status: ListingState.draft,
+            sellerType: user.accountType,
+            auction: {
+                bids: [],
+            },
+            draftCreatedAt: new Date(),
+            draftUpdatedAt: new Date(),
+            publishedAt: undefined,
+            endDate: undefined,
+            currentPrice: undefined,
+        }
+    
+        try {
+            const response = await createVehicleListing(listing);
+            return res.status(201).send(response);
+        } catch (err: any) {
+            sendErrorToErrorHandlingMiddleware(err, next);
+        }
+    
 }
 
 export const getListingHandler = async (req: Request, res: Response, next: NextFunction) => {
@@ -61,11 +113,63 @@ export const getListingHandler = async (req: Request, res: Response, next: NextF
             statusCode: 200,
             success: true
         }
-        console.log(response);
         return res.status(200).send(response);
     } catch (err: any) {
         sendErrorToErrorHandlingMiddleware(err, next);
     }
+}
+
+export const endListingHandler = async (req: Request, res: Response, next: NextFunction) => {
+    
+        const { listingId } = req.params;
+
+        // check weather the listing has active bids
+        // if it has active bids, the listing cannot be ended
+
+        try {
+            const listing = await findListing({
+                _id: listingId
+            });
+    
+            if (!listing) {
+                const error: ErrorResponse = {
+                    statusCode: 404,
+                    message: "Listing not found",
+                    name: "ListingNotFoundError"
+                }
+                throw error;
+            }
+
+            if(listing.auction.bids.length > 0){
+                const error: ErrorResponse = {
+                    statusCode: 400,
+                    message: "Listing has active bids, cannot be ended",
+                    name: "ActiveBidsError"
+                }
+                throw error;
+            }
+    
+            const updates = {
+                status: ListingState.unsold,
+                endDate: new Date(),
+            }
+    
+            const updatedListing = await updateListing({
+                _id: listingId
+            }, updates);
+
+            const response = {
+                data: updatedListing,
+                message: "Listing ended successfully",
+                statusCode: 200,
+                success: true
+            }
+    
+            return res.status(200).send(response);
+        } catch (err: any) {
+            sendErrorToErrorHandlingMiddleware(err, next);
+        }
+    
 }
 
 export const updateListingHandler = async (req: Request, res: Response, next: NextFunction) => {
@@ -73,10 +177,17 @@ export const updateListingHandler = async (req: Request, res: Response, next: Ne
     const { listingId } = req.params;
     const updates = req.body;
 
-    console.log(updates);
+    if (!listingId) {
+        const error: ErrorResponse = {
+            statusCode: 400,
+            message: "Listing ID is required",
+            name: "ListingIdError"
+        }
+        throw error;
+    }
 
     // update listing data safely by restricting the fields that cannot be updated
-    const restrictedFields = ['seller', 'createdAt', 'updatedAt'];
+    const restrictedFields = ['seller', 'createdAt', 'updatedAt','status','isDeleted','publishedAt','endDate','currentPrice','sellerType','draftCreatedAt','draftUpdatedAt'];
 
     if (!updates) {
         return res.status(400).send({ message: "No updates provided" });
@@ -146,14 +257,11 @@ export const deleteListingHandler = async (req: Request, res: Response, next: Ne
 
 export const getListingsHandler = async (req: Request, res: Response, next: NextFunction) => {
 
-    console.log(req.query);
-
     // get query parameters
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 50;
     const search = req.query.search === "" ? undefined : req.query.search as string;
-    const sortBy = req.query.sortBy === "createdAt" ? undefined : req.query.sortBy as string;
-    const sortOrder = req.query.sortOrder === "" ? 'asc' : req.query.sortOrder as string;
+    const sortBy = req.query.sortBy === "" ? SortOptionsType.bestMatch : req.query.sortBy as string;
     const condition = req.query.condition === "" ? undefined : req.query.condition as string;
     const make = req.query.make === "" ? undefined : req.query.make as string;
     const model = req.query.model === "" ? undefined : req.query.model as string;
@@ -166,32 +274,63 @@ export const getListingsHandler = async (req: Request, res: Response, next: Next
     const transmission = req.query.transmission === "" ? undefined : req.query.transmission as string;
     const fuelType = req.query.fuelType === "" ? undefined : req.query.fuelType as string;
     const driveType = req.query.driveType === "" ? undefined : req.query.driveType as string;
+    const bodyType = req.query.bodyType === "" ? undefined : req.query.bodyType as string;
     const listingType = req.query.listingType === "" ? undefined : req.query.listingType as string;
+    const soldBy = req.query.soldBy === "" ? undefined : req.query.soldBy as string;
+    const city = req.query.city === "" ? undefined : req.query.city as string;
+    const division = req.query.division === "" ? undefined : req.query.division as string;
+
+
+    // extract comma separated values and convert them to arrays
+    const conditions = condition ? (condition as string).split(',') : [];
+    const makes = make ? (req.query.make as string).split(',') : [];
+    const models = model ? (req.query.model as string).split(',') : [];
+    const transmissions = transmission ? (req.query.transmission as string).split(',') : [];
+    const fuelTypes = fuelType ? (req.query.fuelType as string).split(',') : [];
+    const driveTypes = driveType ? (req.query.driveType as string).split(',') : [];
+    const bodyTypes = bodyType ? (req.query.bodyType as string).split(',') : [];
+    const soldBys = soldBy ? (req.query.soldBy as string).split(',') : [];
+
+    const accountTypes = soldBys.map((soldBy) => {
+        if (soldBy === SoldBy.dealer) {
+            return AccountType.sellerBusiness;
+        }
+        if (soldBy === SoldBy.individual) {
+            return AccountType.sellerPersonal;
+        }
+        if (soldBy === SoldBy.serviceProvider) {
+            return AccountType.servicePoint;
+        }
+    });
 
     // prepare filters
 
-    let filters:Partial<ListingFilters> = {
+    let filters: Partial<ListingFilters> = {
         status: ListingState.active,
         isDeleted: false,
-        ...(condition && { condition: condition as Conditions }),
-        ...(make && { make: { $regex: make, $options: 'i' } }),
-        ...(model && { vehicleModel: { $regex: model, $options: 'i' } }),
+        ...(condition && { condition: { $in: conditions as Conditions[] } }),
+        ...(make && { make: { $in: makes } }),
+        ...(model && { vehicleModel: { $in: models } }),
         ...(mileageMax && mileageMin && { mileage: { $gte: mileageMin, $lte: mileageMax } }),
         ...(mileageMax && !mileageMin && { mileage: { $lte: mileageMax } }),
         ...(mileageMin && !mileageMax && { mileage: { $gte: mileageMin } }),
         ...(yearMax && yearMin && { manufacturedYear: { $gte: yearMin, $lte: yearMax } }),
         ...(yearMax && !yearMin && { manufacturedYear: { $lte: yearMax } }),
         ...(yearMin && !yearMax && { manufacturedYear: { $gte: yearMin } }),
-        ...(priceMax && priceMin && { fixedPrice: { $gte: priceMin, $lte: priceMax } }),
-        ...(priceMax && !priceMin && { fixedPrice: { $lte: priceMax } }),
-        ...(priceMin && !priceMax && { fixedPrice: { $gte: priceMin } }),
-        ...(transmission && { transmission: { $regex: transmission, $options: 'i'}  }),
-        ...(fuelType && { fuelType: {$regex: fuelType, $options: 'i'}}),
-        ...(driveType && { driveType: {$regex: driveType, $options: 'i'}}),
-        ...(listingType && { listingType: listingType as ListingType })
+        ...(priceMax && priceMin && { currentPrice: { $gte: priceMin, $lte: priceMax } }),
+        ...(priceMax && !priceMin && { currentPrice: { $lte: priceMax } }),
+        ...(priceMin && !priceMax && { currentPrice: { $gte: priceMin } }),
+        ...(transmission && { transmission: { $in: transmissions } }),
+        ...(fuelType && { fuelType: { $in: fuelTypes } }),
+        ...(driveType && { driveType: { $in: driveTypes } }),
+        ...(listingType && { listingType: listingType as ListingType }),
+        ...(bodyType && { bodyType: { $in: bodyTypes } }),
+        ...(soldBy && { sellerType: { $in: accountTypes } }),
+        ...(city && { 'location.city': { $regex: city, $options: 'i'  }}),
+        ...(division && { 'location.division': { $regex: division, $options: 'i'  }})
     };
 
-    if(search){
+    if (search) {
         filters = {
             ...filters,
             $or: [
@@ -202,21 +341,46 @@ export const getListingsHandler = async (req: Request, res: Response, next: Next
     }
 
 
-    // prepare options
-    const options = {
+    let options:QueryOptions = {
         limit,
-        skip: (page-1) * limit, 
-        sort: { [sortBy as string]: sortOrder === 'asc' ? 1 : -1 }
-    };
-
-    console.log('Filters:', filters);
-    console.log('Options:', options);
+        skip: (page - 1) * limit,
+    }
+    // prepare sorting
+    switch (sortBy) {
+        case SortOptionsType.bestMatch:
+            break;
+        case SortOptionsType.endingSoonest:
+            options = {
+                ...options,
+                sort: { endDate: 1 }
+            }
+            break;
+        case SortOptionsType.newlyListed:
+            options = {
+                ...options,
+                sort: { createdAt: -1 }
+            }
+            break;
+        case SortOptionsType.priceHighest:
+            options = {
+                ...options,
+                sort: { currentPrice: -1 }
+            }
+            break;
+        case SortOptionsType.priceLowest:
+            options = {
+                ...options,
+                sort: { currentPrice: 1 }
+            }
+            break;
+        default:
+            break;
+    }
 
     try {
         // get listings and count
         const listings = await findListings(filters, options);
         const count = await countListings(filters);
-        console.log('Listings:', listings);
         return res.status(200).send({
             data: listings,
             total: count,
@@ -263,9 +427,6 @@ export const createBidHandler = async (req: Request, res: Response, next: NextFu
     const { listingId } = req.params;
     const { amount } = req.body;
 
-    console.log(amount);
-    console.log(listingId);
-
     try {
 
         // check required fields
@@ -304,9 +465,11 @@ export const createBidHandler = async (req: Request, res: Response, next: NextFu
             throw error;
         }
 
+        const sellerDoc: UserDocument = listing.seller as unknown as UserDocument;
+        
 
         // check if the listing is not owned by the user
-        if (listing.seller.toString() === user._id.toString()) {
+        if (sellerDoc._id.toString() === user._id.toString()) {
             const error: ErrorResponse = {
                 statusCode: 400,
                 message: "You cannot bid on your own listing",
@@ -363,7 +526,8 @@ export const createBidHandler = async (req: Request, res: Response, next: NextFu
                 maxBid: amount,
                 maxBidder: user._id,
                 bids: [...listing.auction.bids, bid._id]
-            } as ListingDocument['auction']
+            } as ListingDocument['auction'],
+            currentPrice: amount
         }
 
         const updatedListing = await updateListing({

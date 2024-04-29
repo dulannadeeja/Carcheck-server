@@ -36,7 +36,7 @@ export async function createUserHandler(req: Request<{}, {}, CreateUserInput["bo
 
 export const checkUserExistsHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log(req.body.emailOrUsername);
+       
         const existingUser = await findUser({ email: req.body.emailOrUsername });
         if (!existingUser) {
             const error: ErrorResponse = {
@@ -57,7 +57,6 @@ export const sendOTPHandler = async (req: Request, res: Response, next: NextFunc
         const user = res.locals.user;
         const userId = user._id;
 
-        console.log("user id"+userId);
 
         // genarate a random 6 digit OTP
         // const otp = Math.floor(100000 + Math.random() * 900000)
@@ -70,7 +69,6 @@ export const sendOTPHandler = async (req: Request, res: Response, next: NextFunc
             target = `+94${req.body.target}`;
             // check if this phone number is already verified, if so, return an error
             const existingUser = await findUser({ phone: req.body.target });
-            console.log(existingUser);
             // check the number is using by another user
             if (existingUser && existingUser._id.toString() !== userId) {
                 const error: ErrorResponse = {
@@ -84,7 +82,7 @@ export const sendOTPHandler = async (req: Request, res: Response, next: NextFunc
         } else {
             // check if this email is already verified, if so, return an error
             const existingUser = await findUser({ email: target });
-            console.log(existingUser);
+            
             // check the email is using by another user
             if (existingUser && existingUser._id.toString() !== userId) {
                 const error: ErrorResponse = {
@@ -109,7 +107,7 @@ export const sendOTPHandler = async (req: Request, res: Response, next: NextFunc
         return res.status(200).send({ message: "OTP sent successfully" });
 
     } catch (err: any) {
-        console.log(err);
+        
         sendErrorToErrorHandlingMiddleware(err, next);
     }
 }
@@ -241,9 +239,6 @@ export const sellerDocumentsHandler = async (req: Request, res: Response, next: 
 
 export const getFilteredUsersHandler = async (req: Request, res: Response, next: NextFunction) => {
     const query = req.query;
-
-    console.log("Query: ");
-    console.log(query);
 
     // extract the query parameters
     const limit = query.limit ? parseInt(query.limit as string) : 10;

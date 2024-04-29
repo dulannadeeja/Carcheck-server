@@ -35,11 +35,11 @@ export const createVehicleHandler = async (req: Request, res: Response, next: Ne
 
 export const getVehiclesByMakeHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log(req.query);
+        
         const vehicles = await findVehicle({
             make: (req.query.make as string).toLocaleLowerCase()
         });
-        console.log(vehicles);
+        
         return res.status(200).send(vehicles);
     } catch (err: any) {
         sendErrorToErrorHandlingMiddleware(err, next);
@@ -52,14 +52,14 @@ export const getVehicleModelsHandler = async (req: Request, res: Response, next:
         // Extract and validate/sanitize input parameters
         const make = typeof req.query.make === 'string' ? req.query.make.trim() : undefined
         const category = typeof req.query.category === 'string' ? req.query.category.trim() : undefined;
-        const page = parseInt(req.query.page as string) || 1;
-        const limit = parseInt(req.query.limit as string) || 10;
+        const page = parseInt(req.query.page as string) || undefined;
+        const limit = parseInt(req.query.limit as string) || undefined;
         const sort = typeof req.query.sort === 'string' ? req.query.sort.trim() : undefined;
 
         let filters = { };
 
         if (make !== undefined && make !== '') {
-            console.log(`Finding vehicles for make: ${make}`);
+            
             // Find the brand by name
             const brandDoc = await findBrand({ name: make });
             if (!brandDoc) {
@@ -80,13 +80,10 @@ export const getVehicleModelsHandler = async (req: Request, res: Response, next:
         };
 
         const options = {
-            limit,
-            skip: (page-1) * limit,  // Calculate skip value correctly
-            ...(sort && { sort: { [sort]: 1 as 1 } })
+            ...(limit && { limit }),
+            ...(page && limit && { skip: (page - 1) * limit }),
+            ...(sort && { sort: { [sort]: 1 } })
         };
-
-        console.log('Filters:', filters);
-        console.log('Options:', options);
 
         // Count total documents and find vehicles with pagination
         const count = await countDocuments(filters);
@@ -96,8 +93,8 @@ export const getVehicleModelsHandler = async (req: Request, res: Response, next:
         return res.status(200).json({
             data: vehicles,
             total: count,
-            page,
-            totalPages: Math.ceil(count / limit)
+            ...(page && { page }),
+            ...(limit && { totalPages: Math.ceil(count / limit) })
         });
     } catch (err: any) {
         console.error('Error occurred while fetching vehicles:', err);
