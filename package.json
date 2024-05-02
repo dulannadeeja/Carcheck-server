@@ -23,10 +23,11 @@
     "zod": "^3.22.4"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "node build/src/app.js",
     "dev": "nodemon app.js",
     "ts-dev": "ts-node-dev --respawn --transpile-only src/app.ts",
-    "test": "jest --verbose --detectOpenHandles --forceExit --coverage "
+    "test": "jest --verbose --detectOpenHandles --forceExit --coverage ",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
