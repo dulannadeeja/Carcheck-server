@@ -19,7 +19,7 @@ export const createVehicle = async (input: ObtainDocumentType<Omit<VehicleDocume
 export const findVehicle = async (query: FilterQuery<VehicleDocument>) => {
     try {
         // find the vehicles and populate the make field
-        return await VehicleModel.find(query).sort({ make: 1 }).populate('make').lean();
+        return await VehicleModel.findOne(query).sort({ make: 1 }).populate('make').lean();
     }
     catch (err: any) {
         throw new Error(err);
@@ -37,6 +37,7 @@ export const findVehicles = async (
             .skip(options.skip || 0)
             .sort(options.sort || {})
             .exec();
+            console.log(results);
         return results;
     } catch (error) {
         console.error("Failed to find vehicles:", error);

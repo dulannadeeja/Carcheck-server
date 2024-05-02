@@ -1,4 +1,4 @@
-import { FilterQuery } from "mongoose";
+import mongoose, { FilterQuery } from "mongoose";
 import brandModel, { BrandDocument } from "../model/brand.model";
 
 export const getBrands = async () => {
@@ -101,4 +101,18 @@ export const findBrand = async (query: FilterQuery<BrandDocument>) => {
     catch (err: any) {
         throw new Error(err);
     }
+}
+
+export const findBrands = async (query: FilterQuery<BrandDocument>) => {
+    try {
+        return await brandModel.find(query).lean()
+    }
+    catch (err: any) {
+        throw new Error(err);
+    }
+}
+
+export async function createBrands(brands:string[]) {
+    // This function should interact with the database to create new brand documents
+    return brands.map((brand, index) => ({ _id: new mongoose.Types.ObjectId(), name: brand, index}));
 }

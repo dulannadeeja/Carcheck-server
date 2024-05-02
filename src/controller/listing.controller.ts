@@ -469,14 +469,14 @@ export const createBidHandler = async (req: Request, res: Response, next: NextFu
         
 
         // check if the listing is not owned by the user
-        if (sellerDoc._id.toString() === user._id.toString()) {
-            const error: ErrorResponse = {
-                statusCode: 400,
-                message: "You cannot bid on your own listing",
-                name: "OwnListingBidError"
-            }
-            throw error;
-        }
+        // if (sellerDoc._id.toString() === user._id.toString()) {
+        //     const error: ErrorResponse = {
+        //         statusCode: 400,
+        //         message: "You cannot bid on your own listing",
+        //         name: "OwnListingBidError"
+        //     }
+        //     throw error;
+        // }
 
         // check if the auction is not expired
         const currentDate = new Date();

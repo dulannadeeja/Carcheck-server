@@ -8,7 +8,7 @@ const brandSchema = new mongoose.Schema({
     index: { type: Number, required: true },
 })
 
-export interface BrandDocument extends mongoose.Document {
+export interface BrandDocument extends mongoose.Document{
     name: string;
     index: number;
 }

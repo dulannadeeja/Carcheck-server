@@ -4,8 +4,8 @@ import { ErrorResponse } from '../types';
 import { vehicleModels } from '../static/vehicleModels';
 import { createSpecs } from '../service/specs.service';
 import { sendErrorToErrorHandlingMiddleware } from '../utils/errorHandling';
-import { findBrand, getBrandById } from '../service/brand.service';
-import { BrandDocument } from '../model/brand.model';
+import { createBrand, createBrands, findBrand, findBrands} from '../service/brand.service';
+
 
 export const createVehicleHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -16,7 +16,7 @@ export const createVehicleHandler = async (req: Request, res: Response, next: Ne
             vehicleModel: req.body.vehicleModel.toLocaleLowerCase()
         })
 
-        if (isExistingVehicle.length > 0) {
+        if (isExistingVehicle) {
             const error: ErrorResponse = {
                 statusCode: 409,
                 message: "Vehicle already exists",
@@ -58,6 +58,8 @@ export const getVehicleModelsHandler = async (req: Request, res: Response, next:
 
         let filters = { };
 
+        console.log('Make:', make);
+
         if (make !== undefined && make !== '') {
             
             // Find the brand by name
@@ -68,13 +70,14 @@ export const getVehicleModelsHandler = async (req: Request, res: Response, next:
 
             // Prepare query filters
             filters = {
-                isDeleted: false,
-                make: brandDoc._id,
-                ...(category && { category })
+                 make: brandDoc._id 
             };
+
+            console.log('Filters:', filters);
         }
 
         filters = {
+            ...filters,
             isDeleted: false,
             ...(category && { category })
         };
@@ -82,7 +85,7 @@ export const getVehicleModelsHandler = async (req: Request, res: Response, next:
         const options = {
             ...(limit && { limit }),
             ...(page && limit && { skip: (page - 1) * limit }),
-            ...(sort && { sort: { [sort]: 1 } })
+            ...(sort && { sort: { ['vehicleModel']: 1 } })
         };
 
         // Count total documents and find vehicles with pagination
@@ -131,7 +134,7 @@ export const updateVehicleHandler = async (req: Request, res: Response, next: Ne
             _id: id
         });
 
-        if (vehicle.length === 0) {
+        if (vehicle) {
             const error: ErrorResponse = {
                 statusCode: 404,
                 message: "Vehicle not found",
@@ -149,8 +152,26 @@ export const updateVehicleHandler = async (req: Request, res: Response, next: Ne
 }
 
 
-export async function processVehiclesHandler(res: Response) {
+export async function processVehiclesHandler(res: Response, req: Request) {
     try {
+        // Collect all unique brands from vehicleModels
+        const uniqueBrands = new Set(vehicleModels.map(vehicle => vehicle.Make.toLowerCase().trim()));
+
+        console.log('Processing vehicles...');
+        console.log('Unique brands:', uniqueBrands);
+
+        // Fetch existing brands from the database and map them for quick access
+        const existingBrands = await findBrands({ name: { $in: Array.from(uniqueBrands) } });
+        console.log('Existing brands:', existingBrands);
+        const brandMap = new Map(existingBrands.map(brand => [brand.name, brand._id]));
+        console.log('Brand map:', brandMap);
+
+        // Determine which brands need to be added
+        const brandsToCreate = Array.from(uniqueBrands).filter(brand => !brandMap.has(brand));
+        const newBrandDocs = await createBrands(brandsToCreate.map(name => ( name )));
+        newBrandDocs.forEach(brand => brandMap.set(brand.name, brand._id));
+
+        // Now process each vehicle
         for (const vehicle of vehicleModels) {
             const make = vehicle.Make.toLowerCase().trim();
             const vehicleModel = vehicle.Model.toLowerCase().trim();
@@ -158,27 +179,24 @@ export async function processVehiclesHandler(res: Response) {
 
             console.log(`Processing vehicle: ${make} ${vehicleModel}, Category: ${category}`);
 
-            let categories = [];
-            categories = categorizeVehicle(category);
+            let categories = categorizeVehicle(category);
 
-            // Ensure all categories are added to the specsModel
-            for (const cat of categories) {
-                console.log(`Checking/Adding category: ${cat}`);
-                await createSpecs(cat, 'categories');
-            }
+            // Process categories in parallel
+            await Promise.all(categories.map(cat => createSpecs(cat, 'categories')));
 
-            const data = {
-                isDeleted: false,
-                make,
-                vehicleModel,
-                category: categories,
-            };
+            // Retrieve or create brand document ID
+            const brandId = brandMap.get(make);
 
             // Check if vehicle already exists
-            const existingVehicle = await findVehicle({ make, vehicleModel });
-            if (existingVehicle.length !== 0) {
-                console.log(`Vehicle already exists: ${make} ${vehicleModel}`);
-            } else {
+            const existingVehicle = await findVehicle({ make: brandId, vehicleModel });
+            if (!existingVehicle) {
+                const data = {
+                    isDeleted: false,
+                    make: brandId,
+                    vehicleModel,
+                    category: categories,
+                };
+
                 await createVehicle(data);
                 console.log(`Vehicle saved: ${make} ${vehicleModel}`);
             }
@@ -191,6 +209,7 @@ export async function processVehiclesHandler(res: Response) {
         res.status(500).send('Error occurred while saving vehicles');
     }
 }
+
 
 function categorizeVehicle(category: string) {
     const singleWordRegex = /^[a-zA-Z]+$/;
