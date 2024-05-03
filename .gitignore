@@ -1,5 +1,5 @@
 node_modules
 src/config/.env
 build
-src/uploads/images/*
-src/uploads/pdfs/*
+src/uploads/images/
+src/uploads/pdfs/
