@@ -17,6 +17,10 @@ import resourceRoutes from './routes/resourse.routes';
 import notificationRoutes from './routes/notification.route';
 import brandRoutes from './routes/brand.routes';
 import specsRoutes from './routes/specs.routes';
+import ListingScheduler from './jobs/endListing'
+
+// initialize the listing scheduler
+const scheduler = new ListingScheduler();
 
 // Configure dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -107,6 +111,7 @@ const startServer = async (): Promise<Application> => {
         return;
       }
       logger.info(`Server is running on port ${PORT}`);
+      scheduler.start();
       resolve(app);
     });
   });

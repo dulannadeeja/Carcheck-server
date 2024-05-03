@@ -177,3 +177,25 @@ export const findOneAndDeleteListing = async (query: FilterQuery<ListingDocument
         throw new Error(error);
     }
 }
+
+export const updateListings = async (query: FilterQuery<ListingDocument>, updates: QueryOptions) => {
+    try {
+        return await listingModel.updateMany(query, updates, {
+            new: true
+        }).lean();
+    } catch (error: any) {
+        throw new Error(error);
+    }
+}
+
+export const getEarliestEndDate = async (query: FilterQuery<ListingDocument>) => {
+    try {
+        const listing = await listingModel.findOne(query).sort({ endDate: 1 }).lean();
+        if (listing) {
+            return listing.endDate;
+        }
+        return null;
+    } catch (error: any) {
+        throw new Error(error);
+    }
+}
