@@ -1,13 +1,13 @@
 # Carcheck: Revolutionizing the Sri Lankan Automotive Market through a Comprehensive and Transparent Online Vehicle Trading Platform
 
-## [View thesis report here](https://drive.google.com/file/d/1rKPBHpf-QTOJL44wN93ktj6cltljZkEm/view?usp=sharing) 
+## [View full thesis report here](https://drive.google.com/file/d/1rKPBHpf-QTOJL44wN93ktj6cltljZkEm/view?usp=sharing) 
 
-## Abstract
+## 1 Abstract
 
 The project aimed to address transparency and efficiency issues in the Sri Lankan automotive market through the development of a comprehensive online vehicle trading platform. Leveraging modern web technologies, the platform incorporated features like real-time auctions and accurate price predictions, enhancing the buying and selling process. Frontend development utilized React.js and TypeScript, while the backend was built with Node.js, Express, and TypeScript, with MongoDB serving as the database. A dedicated machine learning server, powered by Python and FastAPI, handled vehicle price predictions using linear regression, scikit-learn, pandas, uvicorn, and pymongo. The platform introduced a robust user verification system for secure transactions and community safety. By enhancing efficiency and transparency, the platform sets a framework for advanced data analytics in automotive market assessments, with implications for predictive analytics research. The report details the development process, technologies used, and evaluates the project's success in meeting its objectives.
 
 
-## 3.2 Authentication Feature
+## 2.1 Authentication Feature
 
 The system implemented authentication and authorization processes to ensure secure user access. Users, whether individuals or businesses, underwent input validation during signup to safeguard against invalid data, utilizing the Zod library for both client and server-side validation. Additionally, the server conducted checks for identification data conflicts.
 
@@ -15,10 +15,10 @@ Upon signup, users could securely log in using JWT tokens for authentication and
 
 User roles, including buyer (business and personal), seller (business and personal), service point, and admin, were established for authorization purposes. Frontend protected routes were implemented to restrict access to relevant user role sections, while server-side role-based authorization was enforced using middleware.
 
- ![View thesis report here](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjq5XReVwzELQXXj6kir9aLKoQi3PuuJwrE10ONmSECKKg1AYMVFowwkOYiG08htpcgAp1ObDvHk4nW0HkpLJO6FsxAUiLcMazdvBWeNagQ0s3_-Cpq3-SHPWEorB_vQwFXp_5Ui1ASmsB109UQ1cQ1J1kTadJ0MK1uJGLB-YcURax8DrhTutR3qm-4FDnD/s1887/signup.png) 
- ![View thesis report here](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYInBsE-HxPO_A8tcVHACHHYY8lzhvkBTo7O2mEDu6Z8qEfdqlnvPoA1wpzWp36xrnshFvD5pc8xVYpYNC8CPu2UYwMBMAhh08lSXtGhUMH_l157v_pe99GDzeZe8AAWOgnQ2BHBUFf2ihvC9nDHih8NZoubQmOuUa3-FUIs1vQRALSRFl0_kjLsImGkQc/s16000/signin.png) 
+ ![Authentication Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjq5XReVwzELQXXj6kir9aLKoQi3PuuJwrE10ONmSECKKg1AYMVFowwkOYiG08htpcgAp1ObDvHk4nW0HkpLJO6FsxAUiLcMazdvBWeNagQ0s3_-Cpq3-SHPWEorB_vQwFXp_5Ui1ASmsB109UQ1cQ1J1kTadJ0MK1uJGLB-YcURax8DrhTutR3qm-4FDnD/s1887/signup.png) 
+ ![Authentication Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYInBsE-HxPO_A8tcVHACHHYY8lzhvkBTo7O2mEDu6Z8qEfdqlnvPoA1wpzWp36xrnshFvD5pc8xVYpYNC8CPu2UYwMBMAhh08lSXtGhUMH_l157v_pe99GDzeZe8AAWOgnQ2BHBUFf2ihvC9nDHih8NZoubQmOuUa3-FUIs1vQRALSRFl0_kjLsImGkQc/s16000/signin.png) 
 
-## 3.3 Become a Seller Feature
+## 2.2 Become a Seller Feature
 
 The system prioritizes robust seller verification for community safety, requiring sellers to undergo a multi-step verification process. Initially, users' mobile numbers and emails are validated using OTP, facilitated by Nodemailer and AWS SNS. The server actively checks for conflicts in mobile numbers and emails to prevent duplication.
 
@@ -26,13 +26,20 @@ Upon successful validation, users can select their account type as individual, c
 
 After completing these steps, users must upload verification documents to enhance security, with supported formats including images and PDFs. This comprehensive verification process ensures the integrity of seller accounts and enhances community safety within the system.
 
-## 3.4 Administration Accounts Feature
+![Become a Seller Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYInBsE-HxPO_A8tcVHACHHYY8lzhvkBTo7O2mEDu6Z8qEfdqlnvPoA1wpzWp36xrnshFvD5pc8xVYpYNC8CPu2UYwMBMAhh08lSXtGhUMH_l157v_pe99GDzeZe8AAWOgnQ2BHBUFf2ihvC9nDHih8NZoubQmOuUa3-FUIs1vQRALSRFl0_kjLsImGkQc/s16000/signin.png)
+
+![Become a Seller Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYInBsE-HxPO_A8tcVHACHHYY8lzhvkBTo7O2mEDu6Z8qEfdqlnvPoA1wpzWp36xrnshFvD5pc8xVYpYNC8CPu2UYwMBMAhh08lSXtGhUMH_l157v_pe99GDzeZe8AAWOgnQ2BHBUFf2ihvC9nDHih8NZoubQmOuUa3-FUIs1vQRALSRFl0_kjLsImGkQc/s16000/signin.png)
+
+
+## 2.4 Administration Accounts Feature
 
 System administrators have access to a comprehensive table, powered by tanstack/react-table, displaying registration information provided by sellers. They can effortlessly view all details and conveniently download verification documents as needed. Additionally, administrators possess the authority to approve or reject account creation requests directly from the interface.
 
 Facilitating file downloads, the system features a robust downloader component that provides real-time progress updates during the download process. This component's versatility enables seamless integration across various system functionalities, although its implementation presented some initial challenges.
 
-## 3.5 Manage Vehicle Specifications Feature for Admin
+![Administration Accounts Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjBw7kARnZ2qtTCA4sH06_zUzaBDEvPs4FjTPQKlnTte0Qp5_ty4gubjQ8xKuty5d_78oBly2YSn2zS8AvbezRCKFJElCTqmNvvGVadFv38v5XHRI-KoF_1Rwvi3AdGqGszoV3ZgNTbwRAqZI74KAXgCK1236UC2k8OOcXFO-FUoNd2wHGSLXsWyDeS811p/s16000/accounts.png) 
+
+## 2.5 Manage Vehicle Specifications Feature for Admin
 
 Administrators have the capability to oversee and manage various vehicle specifications within the system, including:
 
@@ -44,17 +51,23 @@ Administrators have the capability to oversee and manage various vehicle specifi
 
 These specifications play a crucial role in various aspects of the system, including listing postings, search filtering, and price predictions. By effectively managing these options, administrators ensure that users have access to accurate and relevant information when browsing and interacting with vehicle listings on the platform.
 
-## 3.6 Manage Vehicle Brands Feature for Admin
+![Manage Vehicle Specifications Feature for Admin](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHer44yzI6JzAyAENgFNMnQF9X0WqPJqQnAxu0t_kNngY45IBvf1d68GVj7QHOS-lc1QRZQRM5E7VC54KUKvClgPlSP7Jb6R8oS5iwfnxvaVmUy424PJFqwxBsPTfqIjFKbTN6g7VOhbTi4Sko_0UyXlFWyIqJ4kz0Y9O20vsjM2cg1OYCH_L3JYzx7YmO/s16000/specifications.png) 
+
+## 2.6 Manage Vehicle Brands Feature for Admin
 
 System administrators can manage vehicle brands across the entire system.
 
-## 3.7 Add Vehicle Models Feature for Admin
+![Manage Vehicle Brands Feature for Admin](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXguBA9JF9oOjhTWTMh7ujGOfbGgztfCx0qoLpR28JsFROF29N2RFm9Hy7nXOQxBdet1JboCVmPE9rBAkHHmQ5CMa7QQd0tJifrSNvwiB0lYdDXPDW-Y_A3muJBq-pmQGVvrn4xVky-RQhsbInVnKuPtmy1i7TP3tYUFUJxWVik0phXUR8kTPOE8q7UmNd/s16000/brands.png) 
+
+## 2.7 Add Vehicle Models Feature for Admin
 
 Administrators have the ability to manage vehicle models associated with specific brands throughout the system. These models are prominently featured for filtering and listing creation purposes.
 
 During the system's inception, developers utilized a dataset containing popular vehicle models to populate initial entries, streamlining brand management and minimizing the need for manual input of thousands of brands. Care was taken to include brands and categories not yet present in the system, ensuring clarity and preventing confusion.
 
-## 3.8 Create a New Listing Feature
+![Add Vehicle Models Feature for Admin](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgcDTDzB1a7JsnSZSwIWBQca7cw6my4UauhbG8rl1z4S9IxAupKPw0zWY-lRZSoI8WwnNLlCul3l7AAOndCwGCi8slmhjGSbOvL8E-2ozmpF4AoAMFkT1gPi29OOsPYBy3oyvLFuR7YqbdCskt_rSlt309Q9XxmAX0du6y66VsnyBEo3cYCQ3rfvXdQnpgO/s1902/vehicles.png) 
+
+## 2.8 Create a New Listing Feature
 
 Sellers can list their vehicles in the system once their selling accounts are fully verified. Upon initiating a new listing, the system automatically generates a draft, enabling users to input necessary information conveniently. As users enter data, the system continuously saves changes, facilitating easy recovery in case of network errors. This auto-saving functionality is achieved using debounced events from the Lodash library, ensuring efficient network request control.
 
@@ -65,6 +78,12 @@ To complete a listing, sellers must provide all required information and may opt
 All information undergoes strict validation on both the client and server sides. The developer emphasized meticulous data validation, considering that this data is used for machine learning price prediction. Example validations include ensuring that if the vehicle condition is "brand new," mileage and previous owners must be zero, required information cannot be skipped, and maximum values must be lower than minimum values.
 
 Sellers have the option to defer listing items for the moment or save them for later, providing flexibility in managing their listings.
+
+![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiJ3Hde6Pyrs0I1OAK1ltnnAFbTqXNjl9BQfqnuzIm4ZS3RAKc1Zno3x0NxoyR02OvIEiOWFSzqYLgjfWCg6bwb7XfNR9ESAr4_3RHooY21JtLtYNzsBFRtcAZu1OqQu2VkhRVdT-sEiEPfQCnQ4FvIfjeX5eISnysqxb4Yrn8apaGSX60w2jdFIsCKg2j4/s16000/new%20listing%20-1%20.png) 
+![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhvUOA8BmviJhZt_Ii4uTTH2qBm0fZcUYEs2wtZjDml9m8zWnLUNQFJGlMfGCldPo6G_PiVDsKArVqTMkZxZJPtdbWL-k_tZ50uD8IK7UoVbq0BEx6TBv_5Ok3A1yxqHGC0gW9raWbHmWPHO9pHfkIlIatdqJeqER8YH3NGhWPVJyIvP1vnFxe8YKgEUp-m/s1095/new%20listing%20-2.png) 
+![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxCeGd6j_ZOriYh23VcjAFfcGM5QLsHZC59fGHZ6zqJKH567D_AvC6JYfeFjQMZNteq3aBDsfT0UQWoy74E1AcnfWll3lOAMfC0ZZ2kaFYDG8hjQNMNsFirW2L-nGVs77uW1AAjctCClaYsGkm7AjHcxeGiHGTREfFv7w8zrgD4pVrobBynNSpCeECa8RG/s862/new%20listing%20-3.png) 
+![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhw2GQCxeZk0ypjeHVtiT93ZBGgr3TvG0eF6m4Y1uqo23bz8AsZC_MIdLBAgwoz4s-Nw4_Gh-VLg30hDTU9dizsbNegLYiGhC2CgKfGU5z4OPFf0MAkxBxpebMlg-QjAgNcydCxb3q5PO9swxxkp0RmheKnzxQuqNNtOjTLKUso9LPRSCkgLda5rK36lyE_/s16000/new%20listing%20-4.png) 
+![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjZsE5jbcJfjSMgm1FHkmVgYiYYnFIUdpq6mj6JGZGuln5XF_7eT0ujmIPn1sVGmXLw2z3fVzT0-4MmNJirD90NZezcZTJr0SFWzsIvB9jFQJ8-Qzp_qrthEuj6Ls_ezO7JBIDfStF1g7YNAJzZYYvdgnmHJ1b1BgItn8mxY6tVQWdml1OSpSc5IQ5Sl2Or/s16000/Screenshot%202024-05-21%20161019.png) 
 
 ## 3.9 Preview of the Listing Feature
 
