@@ -15,8 +15,8 @@ Upon signup, users could securely log in using JWT tokens for authentication and
 
 User roles, including buyer (business and personal), seller (business and personal), service point, and admin, were established for authorization purposes. Frontend protected routes were implemented to restrict access to relevant user role sections, while server-side role-based authorization was enforced using middleware.
 
- [View thesis report here](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjq5XReVwzELQXXj6kir9aLKoQi3PuuJwrE10ONmSECKKg1AYMVFowwkOYiG08htpcgAp1ObDvHk4nW0HkpLJO6FsxAUiLcMazdvBWeNagQ0s3_-Cpq3-SHPWEorB_vQwFXp_5Ui1ASmsB109UQ1cQ1J1kTadJ0MK1uJGLB-YcURax8DrhTutR3qm-4FDnD/s1887/signup.png) 
- [View thesis report here](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYInBsE-HxPO_A8tcVHACHHYY8lzhvkBTo7O2mEDu6Z8qEfdqlnvPoA1wpzWp36xrnshFvD5pc8xVYpYNC8CPu2UYwMBMAhh08lSXtGhUMH_l157v_pe99GDzeZe8AAWOgnQ2BHBUFf2ihvC9nDHih8NZoubQmOuUa3-FUIs1vQRALSRFl0_kjLsImGkQc/s16000/signin.png) 
+ ![View thesis report here](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjq5XReVwzELQXXj6kir9aLKoQi3PuuJwrE10ONmSECKKg1AYMVFowwkOYiG08htpcgAp1ObDvHk4nW0HkpLJO6FsxAUiLcMazdvBWeNagQ0s3_-Cpq3-SHPWEorB_vQwFXp_5Ui1ASmsB109UQ1cQ1J1kTadJ0MK1uJGLB-YcURax8DrhTutR3qm-4FDnD/s1887/signup.png) 
+ ![View thesis report here](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYInBsE-HxPO_A8tcVHACHHYY8lzhvkBTo7O2mEDu6Z8qEfdqlnvPoA1wpzWp36xrnshFvD5pc8xVYpYNC8CPu2UYwMBMAhh08lSXtGhUMH_l157v_pe99GDzeZe8AAWOgnQ2BHBUFf2ihvC9nDHih8NZoubQmOuUa3-FUIs1vQRALSRFl0_kjLsImGkQc/s16000/signin.png) 
 
 ## 3.3 Become a Seller Feature
 
