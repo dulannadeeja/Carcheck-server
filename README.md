@@ -83,7 +83,6 @@ Sellers have the option to defer listing items for the moment or save them for l
 ![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhvUOA8BmviJhZt_Ii4uTTH2qBm0fZcUYEs2wtZjDml9m8zWnLUNQFJGlMfGCldPo6G_PiVDsKArVqTMkZxZJPtdbWL-k_tZ50uD8IK7UoVbq0BEx6TBv_5Ok3A1yxqHGC0gW9raWbHmWPHO9pHfkIlIatdqJeqER8YH3NGhWPVJyIvP1vnFxe8YKgEUp-m/s1095/new%20listing%20-2.png) 
 ![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxCeGd6j_ZOriYh23VcjAFfcGM5QLsHZC59fGHZ6zqJKH567D_AvC6JYfeFjQMZNteq3aBDsfT0UQWoy74E1AcnfWll3lOAMfC0ZZ2kaFYDG8hjQNMNsFirW2L-nGVs77uW1AAjctCClaYsGkm7AjHcxeGiHGTREfFv7w8zrgD4pVrobBynNSpCeECa8RG/s862/new%20listing%20-3.png) 
 ![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhw2GQCxeZk0ypjeHVtiT93ZBGgr3TvG0eF6m4Y1uqo23bz8AsZC_MIdLBAgwoz4s-Nw4_Gh-VLg30hDTU9dizsbNegLYiGhC2CgKfGU5z4OPFf0MAkxBxpebMlg-QjAgNcydCxb3q5PO9swxxkp0RmheKnzxQuqNNtOjTLKUso9LPRSCkgLda5rK36lyE_/s16000/new%20listing%20-4.png) 
-![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjZsE5jbcJfjSMgm1FHkmVgYiYYnFIUdpq6mj6JGZGuln5XF_7eT0ujmIPn1sVGmXLw2z3fVzT0-4MmNJirD90NZezcZTJr0SFWzsIvB9jFQJ8-Qzp_qrthEuj6Ls_ezO7JBIDfStF1g7YNAJzZYYvdgnmHJ1b1BgItn8mxY6tVQWdml1OSpSc5IQ5Sl2Or/s16000/Screenshot%202024-05-21%20161019.png) 
 ![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqlUQGBvZU-r4_jvpwRPs_TKpm5sP0m-cero7G6_Ce0V7SlA7UKJR2K-LZze2uO7wPQNQl_wc_TbSFOfvJ7p_mu4gzyZKXHpRUTuJ3BXUw3tBMOQcaS7CmHNgJ0OEXcb9QN0NCPRdpX1FQAjSjDzehf3B_xWZXFCwC0IcmFnBrd5YNc8PrYzflhMtWNWCc/s16000/new%20listing%20-5.png)
 
 
@@ -241,11 +240,11 @@ This server can efficiently serve responses for predicted values when input feat
 
 ![MODEL EVALUATION](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjHrTHnhvG39QhdPWrPY0ANbXCyvzA6o8pNU5N8n1vgvlvTc0FbF23DDvLhUjtJ7u6Ki4S7c-F_JmtDT4Q6_-MJ8QwfhFvrxHcMpUMUMbMVPtnBtGfDG5wu3VKBga3hKqe1AC-RWvKBLPoGxovjxtLe68f1RQkeKOGwH26kZHYo4H79JWK3sTYqJ3IF3dSJ/s1652/system%20settings.png)
 
+![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjZsE5jbcJfjSMgm1FHkmVgYiYYnFIUdpq6mj6JGZGuln5XF_7eT0ujmIPn1sVGmXLw2z3fVzT0-4MmNJirD90NZezcZTJr0SFWzsIvB9jFQJ8-Qzp_qrthEuj6Ls_ezO7JBIDfStF1g7YNAJzZYYvdgnmHJ1b1BgItn8mxY6tVQWdml1OSpSc5IQ5Sl2Or/s16000/Screenshot%202024-05-21%20161019.png) 
+
 # DEPLOYMENT AND MONITORING:
-The fully developed platform will be deployed and monitored to ensure smooth operation and
-functionality. The deployment will involve setting up the environment on AWS EC2 instances for
-different components—Python model, Node.js REST API, and the React client—to ensure continuous
-uptime and public accessibility. 
+
+The fully developed platform will be deployed and monitored to ensure smooth operation and functionality. The deployment will involve setting up the environment on AWS EC2 instances for different components—Python model, Node.js REST API, and the React client—to ensure continuous uptime and public accessibility. 
 
 
 
