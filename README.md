@@ -26,7 +26,7 @@ Upon successful validation, users can select their account type as individual, c
 
 After completing these steps, users must upload verification documents to enhance security, with supported formats including images and PDFs. This comprehensive verification process ensures the integrity of seller accounts and enhances community safety within the system.
 
-![Become a Seller Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYInBsE-HxPO_A8tcVHACHHYY8lzhvkBTo7O2mEDu6Z8qEfdqlnvPoA1wpzWp36xrnshFvD5pc8xVYpYNC8CPu2UYwMBMAhh08lSXtGhUMH_l157v_pe99GDzeZe8AAWOgnQ2BHBUFf2ihvC9nDHih8NZoubQmOuUa3-FUIs1vQRALSRFl0_kjLsImGkQc/s16000/signin.png)
+![Become a Seller Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEif0r76lSmy9T-bwJOp19aqXMTqWMavwcN00qobWeSO5or5iUTwFTPeCv9MMi4igky_ibp4Cy2ahF1N8XNcm4NZEciLS21-hCj3KfAzZpG-5Y0oiY_dY3NblAdGR1nmKhz_z4jAfzELg6HDXwHjLK0riLdT1eLffSNoctYR7XGCFdEDmnYYIdvOqTn0hxHT/s1306/became%20seller.png)
 
 ![Become a Seller Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYInBsE-HxPO_A8tcVHACHHYY8lzhvkBTo7O2mEDu6Z8qEfdqlnvPoA1wpzWp36xrnshFvD5pc8xVYpYNC8CPu2UYwMBMAhh08lSXtGhUMH_l157v_pe99GDzeZe8AAWOgnQ2BHBUFf2ihvC9nDHih8NZoubQmOuUa3-FUIs1vQRALSRFl0_kjLsImGkQc/s16000/signin.png)
 
@@ -84,24 +84,35 @@ Sellers have the option to defer listing items for the moment or save them for l
 ![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxCeGd6j_ZOriYh23VcjAFfcGM5QLsHZC59fGHZ6zqJKH567D_AvC6JYfeFjQMZNteq3aBDsfT0UQWoy74E1AcnfWll3lOAMfC0ZZ2kaFYDG8hjQNMNsFirW2L-nGVs77uW1AAjctCClaYsGkm7AjHcxeGiHGTREfFv7w8zrgD4pVrobBynNSpCeECa8RG/s862/new%20listing%20-3.png) 
 ![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhw2GQCxeZk0ypjeHVtiT93ZBGgr3TvG0eF6m4Y1uqo23bz8AsZC_MIdLBAgwoz4s-Nw4_Gh-VLg30hDTU9dizsbNegLYiGhC2CgKfGU5z4OPFf0MAkxBxpebMlg-QjAgNcydCxb3q5PO9swxxkp0RmheKnzxQuqNNtOjTLKUso9LPRSCkgLda5rK36lyE_/s16000/new%20listing%20-4.png) 
 ![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjZsE5jbcJfjSMgm1FHkmVgYiYYnFIUdpq6mj6JGZGuln5XF_7eT0ujmIPn1sVGmXLw2z3fVzT0-4MmNJirD90NZezcZTJr0SFWzsIvB9jFQJ8-Qzp_qrthEuj6Ls_ezO7JBIDfStF1g7YNAJzZYYvdgnmHJ1b1BgItn8mxY6tVQWdml1OSpSc5IQ5Sl2Or/s16000/Screenshot%202024-05-21%20161019.png) 
+![Create a New Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqlUQGBvZU-r4_jvpwRPs_TKpm5sP0m-cero7G6_Ce0V7SlA7UKJR2K-LZze2uO7wPQNQl_wc_TbSFOfvJ7p_mu4gzyZKXHpRUTuJ3BXUw3tBMOQcaS7CmHNgJ0OEXcb9QN0NCPRdpX1FQAjSjDzehf3B_xWZXFCwC0IcmFnBrd5YNc8PrYzflhMtWNWCc/s16000/new%20listing%20-5.png)
 
-## 3.9 Preview of the Listing Feature
+
+## 2.9 Preview of the Listing Feature
 
 During the listing process, users have the capability to view a real-time preview of the provided data. This preview feature allows users to visualize how the final listing will appear to buyers before actually listing the item.
 
-## 3.10 Listing Draft Feature
+![Preview of the Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjmvu4Nr2YWak84KzDYxI3CRiBmoKBnlaDi-POV7OzJEDcVG81dP5JDacyu-hagsrLAhf4_tTzaSau2fXhmZjeAC1IpVUiWNhCl0UWu89tfzrohqMatt91TPzL_GY0j3jpAmFRE9cJCaX1xGBi3NbW58FYo6HmDUhfrqTL5n4-JzQ06_GYz-FWBxkhH4gCT/s16000/preview.png)
+
+
+## 2.10 Listing Draft Feature
 
 In the seller's area of the system, there's a dedicated section for managing drafts. Here, sellers can easily resume working on a saved draft or delete it if needed. Additionally, sellers can request an inspection report for a specific draft from this section.
 
-## 3.11 Active Listings Feature
+![Preview of the Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiQWz_DRLYZjH_K_AH94ocsFZG7JDQnfaMYJ3ROCEsJN4aGsCq-50CiZ55oJFwkUrxhwTn6ua8iA02S1BR_s1nsxUv906Neygw8M3mn5Ji_db4_hiOFIRRECaym3OnhCAZyj7E791HvVc3mlyx1Zp3t8ORhZVJ4V3W-Z4eYfNliUQyULni91skeXE513igl/s16000/drafts.png)
+
+## 2.11 Active Listings Feature
 
 Under the active listings section, sellers can view a list of published listings along with all the relevant details, including bids for each listing. Sellers have the option to edit specific listings and update their details as needed. When a seller ends a listing, it moves to the unsold listings section.
 
-## 3.12 Unsold Listings Feature
+![Active Listings Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiqbfjiM1B1FvM5GX0fW5H0XMJ5XN9AdoXc2UfehBBL8hVbB05cwJ2kypcktikrKARyO-Mv5wtzLeDP0WiD05X6YJi-SWGLfhPmd8473okUwtAnHXmLlTjvAMTM1QZrbt0SxsAlAEotixP0jQokGRP7cavoAL7zUy5kJUv6vYlxiA2NbmDIv1rx8GIdBX6Y/s16000/Active.png)
+
+## 2.12 Unsold Listings Feature
 
 This section displays listings that have ended either by the seller's action or automatically by the system without any bidding or buying activity. Sellers can relist items from this section to make them live again for another period of time.
 
-## 3.13 Auction Running Mechanism
+![Unsold Listings Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxDhACHJ8fLVNNlvr-qbTtyGaN29XIs81moTSK9Nof96kNbgypg70l9i4AZQ8W2vTPKppBGdM5TjIw0IdhWeRCX3CTCh-c_oKFrf_AeYypcH7BGIf_i9R6BsCi54JWhOZ52bP8_tAUoRJGDgX1l-4Hi6hMmnZWdm0lCaPYRogv00gU0GoMJRtvG1gMmbCV/s16000/unsold.png)
+
+## 2.13 Auction Running Mechanism
 
 The system boasts robust auction mechanisms, allowing users to set auction durations and starting bids, with the option to include a reserve price. A scheduled background job, initiated upon server startup, continuously monitors auctions, ensuring timely actions after the duration ends.
 
@@ -109,11 +120,13 @@ During its initial run, the job scans the database for ended auctions, updating 
 
 Furthermore, the server includes an additional check when fetching listings, updating the status to sold or unsold before transmitting the listing data to clients. This approach guarantees accurate and up-to-date information for users interacting with auction listings.
 
-## 3.14 Fixed Listings Ending Mechanism
+![Auction Running Mechanism](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjgBU9Ml8XartwoGN9bK4xO4JoKlWEZ7BQGcMaoBF74hcC2cGW-3EO_xeDAP8Z7KhlVI6u6Y3vsbjA9t0KHq0lStavmBw9VZiWc80saZqN8xXQxn3_0owqCU8VMTQ8kz-4zx0e5h5djWP4H1mYVSOHr5D3sUzAytylDlpm0OgODt8iuU9BnBlZM8jO99O1x/s907/listing_sheduler.png)
+
+## 2.14 Fixed Listings Ending Mechanism
 
 In addition to auction listings, fixed listings in the system have a predetermined duration of 30 days from the date of going live. Similar to auction listings, these fixed listings also employ the mechanisms described in the auction running process. This ensures consistent handling of listing durations and timely actions for both auction and fixed listings, enhancing user experience and system reliability.
 
-## 3.15 View Listing Feature
+## 2.15 View Listing Feature
 
 The view listing page offers a user-friendly image viewer for seamless navigation through all listing images. By pre-fetching all images, users experience fast image navigation without the need for server fetches during image transitions. Developer optimizations, such as using `useMemo` in React, reduce unwanted re-renders, ensuring smooth navigation.
 
@@ -121,111 +134,118 @@ Additionally, the page presents comprehensive listing information, including lis
 
 Furthermore, if the current listing has ended, the page restricts users from engaging in buying or bidding activities and displays a notification accordingly. For users who have placed bids, the page indicates whether their bid is the winning bid or provides information on the maximum bid for the listing.
 
-## 3.16 Place Bids Feature
+![View Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhHcNnlvGPRDSUkMXV_FTR0zPSXaRwFnk84bFu-QbB8fjYsrfvGFvGRNBNde-u_LGgNeGQf_SqWXaEC09Q3gAxZkxrkbFhn3L8hHZPi3TvLKfZHNYFNi7rKhvp2Dl6HBLEvFuSgHXocm4pPrDC5iH06VpxnedhkksoexesUo1JtXkBmUv9bakklSH3w358Q/s1895/view%20listing.png)
+![View Listing Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhsKTmKkJHwrAgQsE3VcDdeBANFHLWTr05ibQMDKxcRo0F3NknzEEsEDDCyA3u7d5E7eoBVOVz3Gp5z5ZobijDagdGXgYyolfJbp8Dm05LH1n_Y3WUl0HrMMOAYd3zb1d28w5ov4OwVV_E4JJB33vOSx4TQF8Umd8urYFsVNJXPI01fplRhDgioFAaxxr_P/s16000/view%20listing%202.png)
+
+## 2.16 Place Bids Feature
 
 The Place Bids feature enables users to bid on specific listings, offering recommended bid options for easy bidding or allowing bidders to enter their own bid amount.
 
 Each bid submitted to the server undergoes validation to ensure that it surpasses the current maximum bid, confirms the auction's active state, and prevents listing owners from participating in bidding activities. This validation process helps maintain fairness and transparency in the bidding process, ensuring that bids adhere to established rules and regulations.
 
-## 3.17 View Bidding History Feature
+![Place Bids Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg7jlTriFdXlMieotflmcNe30pgLCv1WwLJlHrm-1ae5TW-myrXucvMVZUqatBwqRpul_jekLs8H6a_oTm3CfD5ymPYuFzfkApXR4Hyz42qkw2AijydPzBCSJhJtdjyW0qnM1edb7Z-5Z2Z4zTmlG_EtC13ekGhgjqaZ5eBiqmFnKOrwpl2Z_o2F-uEaIjj/s1882/bidding.png)
+
+## 2.17 View Bidding History Feature
 
 The page displays a list of bids received for a specific listing, providing transparency and insight into the bidding activity associated with that listing.
 
-## 3.18 View All Listings Feature
+![View Bidding History Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiWOgwwQece9Ev8Y8R0HVmyHtV2RMSS1h8JssaU0OJKa3xNIiP-kgro82GDLv9WVzUaZCyR95rA_cx70il72qIvAakLxx-S4f5Jm7rVG4QoNbMD-z1Nbf8hrs0n_CfKKmCtmjYJiS4M2FJgH8ENa_7krvO3QdJR3hyphenhyphen9iTcbkIlPo_MHwKiNWl1H8g1_Yg3e/s16000/bid%20history.png)
+
+## 2.18 View All Listings Feature
 
 This feature offers a comprehensive listings page that displays all active listings on the system. Users can choose to view listings with fixed prices, auctions, or both formats.
 
 Listings can be sorted by various criteria including best match, ending soonest, newly listed, price lowest first, and price highest first. Users can also apply filters based on price range, year range, mileage range, brand, transmission type, body type, fuel type, and more. All filters are interconnected, ensuring that only valid options remain for filtering purposes. For instance, selecting Toyota will limit the available model options to Toyota models only.
 
-## 3.19 Favourites List Feature
+![View All Listings Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg4333GQ2ryaHEb8nBLjNRGCf4d1edalp7SaYMBEmQZY20VC3VrQC08qOkgxmprF6yRpbnmQW052ZUsCh4QwJxxK06XV1oHuWRZ1MTmQhRtPVUhOv0uuu-epSYga114dGXL14PrY4xjzOpRJ5vr0giK0VuSaeBspL2E0v31bopqVvePw2iFqRgiHcOeA7Uw/s1657/filters.png)
 
-The system includes a favourites list feature, allowing users to add listings to their favourites for easy access and future reference. This feature enhances user convenience by providing a centralized location for quick access to listings of interest.
+## 2.19  Search Listings Feature
 
-## 3.20 Search for Listings Feature
+The system features a consistent search bar across the website, ensuring easy access to the listing search functionality. This search functionality extends beyond searching for keywords in listing titles, also including descriptions to provide more accurate results. Additionally, the developer implemented a combination of filters and sort options on the server side, enabling users to refine their searches further and access listings that best match their criteria.
 
-The search feature provides users with a quick and efficient way to find listings of interest. A predictive search component allows users to enter any part of a listing, such as title, description, or category, and receive accurate search results. This component efficiently performs search operations on the client side, significantly reducing server load.
+## 2.20 Location Filtering Feature
 
-## 3.21 Add New Credit Card Feature
+This feature provides a comprehensive list of divisions and cities in Sri Lanka. Users can select a city to view listings specifically within that city. Similarly, users can also filter listings by division. This functionality is handled by the server, ensuring accurate and efficient filtering based on user preferences.
 
-The system enables users to add new credit card information for payments, employing the stripe/stripe-react-sdk for efficient payment processing. The stripe/stripe-react-sdk simplifies the integration of Stripe's payment processing capabilities into the system. When users add their credit card information, the system securely transmits the data to Stripe's servers for processing. The Stripe API handles the secure storage and tokenization of credit card information, ensuring compliance with industry standards and maintaining a high level of security.
+![Search for Listings Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjJKcSbdKTCkLDKNyejilUX83HRtKlO7vXtYU-d5sqMlEpoxQamSEsXsv1n6wduFWC0dlO2lzdI0At01lRQUI4ee1A75YZDCVVA5ZTJ6hcFemWKV8POneJFFT17ymYjx4L-BVsbRFwFp7P2QrmrLjUvWuReXRLZvVW2RejfzDiKdyq9wHiBGajJHPn6-K1C/s16000/location%20filter.png)
 
-By leveraging the stripe/stripe-react-sdk, the system streamlines the process of adding and managing credit card information, providing users with a seamless and secure payment experience. Users can trust that their payment details are handled securely, while developers benefit from the robust features and ease of integration offered by the Stripe SDK.
+## 2.21 notification feature
 
-## 3.22 Payment Feature
+Notifications have been implemented by the developer to push notifications on events like seller account creation approval of the account.
 
-The system employs the stripe/stripe-react-sdk for handling payments. For payments, users have the option to pay with credit cards. This integration ensures that all payment processing, including transaction handling and security, is seamlessly managed by the Stripe API. The stripe/stripe-react-sdk enables secure and reliable payment transactions, enhancing user experience and ensuring the integrity of financial data.
+![Search for Listings Feature](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjJKcSbdKTCkLDKNyejilUX83HRtKlO7vXtYU-d5sqMlEpoxQamSEsXsv1n6wduFWC0dlO2lzdI0At01lRQUI4ee1A75YZDCVVA5ZTJ6hcFemWKV8POneJFFT17ymYjx4L-BVsbRFwFp7P2QrmrLjUvWuReXRLZvVW2RejfzDiKdyq9wHiBGajJHPn6-K1C/s16000/location%20filter.png)
 
-By utilizing the stripe/stripe-react-sdk, the system provides users with a convenient and secure payment method for their transactions, while maintaining compliance with industry standards and best practices.
+# INTEGRATION OF MACHINE LEARNING:
 
-## 3.23 Post Payment Feature
+Advanced machine learning models will be integrated into the platform to enable feature price prediction on vehicles. Developing a linear regression model for vehicle value prediction involves several steps, from data collection and preprocessing to training the model and evaluating its performance.
 
-Upon successful payment processing, users have access to their payment history. This feature enables users to view a comprehensive list of their past transactions, providing transparency and accountability.
+## 1.1 GATHERING DATA
 
-In addition to payment history, the post-payment feature includes a cancellation option for users who wish to cancel a payment. This functionality allows users to initiate a cancellation request, which is then processed according to the system's cancellation policy. The cancellation feature enhances user control over their financial transactions and provides a streamlined process for addressing payment-related concerns.
+Based on research, the developer identified key features that significantly influence a vehicle's value in the Sri Lankan market. These features include make, model, manufactured year, registered year, mileage, number of previous owners, exterior color, fuel type, condition, transmission, body type, and engine capacity. 
 
-Furthermore, users receive email notifications confirming successful payments, cancellations, or refunds. These notifications serve as a means of communication between the system and its users, ensuring that they are informed of any changes or updates related to their payments.
+However, acquiring a dataset aligned with the Sri Lankan market proved challenging, as no existing dataset was available. To address this issue, the developer invested time in conducting market research on popular vehicle trading platforms such as ikman.lk and riyasewana.lk. From these platforms, the developer carefully extracted data to create a dataset suitable for training a price prediction model. This process was time-consuming, but ultimately, the developer obtained over 600 records to initiate the initial training process.
 
-## 3.24 Inspection Reports Feature
+## 1.2 LOAD EXTRACTED DATASET TO THE SYSTEM
 
-The inspection reports feature provides sellers and potential buyers with comprehensive details about the condition and quality of a vehicle. Sellers can initiate an inspection request for their listed vehicle, and a qualified inspector conducts a thorough evaluation of the vehicle's condition.
+In this step, the developer read the extracted dataset from the CSV file and saved this data in the system. To accomplish this task, the developer utilized the Pandas library to read the data from the CSV file and then saved it to the model data collection.
 
-Once the inspection is completed, the system generates a detailed inspection report, including information on the vehicle's mechanical, electrical, and structural components, as well as any identified issues or areas requiring attention. This report is then made available to potential buyers, offering transparency and helping them make informed purchasing decisions.
+## 1.3 SYNC WITH DATABASE
 
-To ensure the integrity and reliability of inspection reports, the system maintains a secure and tamper-proof record of each inspection, preventing unauthorized modifications or alterations. This feature enhances trust and confidence among users, fostering a safer and more transparent marketplace for vehicle transactions.
+After loading the initial data, the system interacts with the Mongoose database to collect data from the listings collection posted on the website. This mechanism enables the machine learning model to update based on current market behaviors and collect a larger dataset for accurate price prediction. To achieve this, the machine learning model utilizes the Pymongo library to interact with the Mongoose database.
 
-## 3.25 Price Predictions Feature
+The data syncing logic implemented in the system keeps track of the IDs of records added to the model from the database. This mechanism simplifies the process of updating model data without overwriting all existing data from the database. Instead, it adds only the new records, ensuring efficient and seamless updates to the dataset.
 
-The price prediction feature employs advanced machine learning algorithms to estimate the market value of vehicles based on various factors such as make, model, year, mileage, condition, and location. By analyzing historical sales data and current market trends, the system provides users with accurate and up-to-date price estimates.
+## 1.4 PRE-PROCESSING DATA
 
-Sellers benefit from this feature by gaining insights into the optimal listing price for their vehicles, helping them attract potential buyers and achieve a fair market value. Buyers, on the other hand, can use the price prediction tool to assess the reasonableness of a listing price, making more informed purchasing decisions.
+Once the data is collected, the next step is preprocessing, which involves organizing the data in a format suitable for input into a linear regression model. This includes the following steps: 
 
-The machine learning models used for price predictions are continuously updated and refined to reflect the latest market dynamics, ensuring that users receive reliable and relevant pricing information.
+Drop Null Values and Duplicates: Remove any null values and duplicate entries from the dataset to ensure data cleanliness and accuracy.
 
-## 3.26 Notifications Feature
+Map External Dataset Values: Map values from the external dataset to align with the system's data structure, ensuring consistency and compatibility.
 
-The system includes a robust notification feature to keep users informed about various events and updates related to their accounts and activities. Notifications are delivered via email and in-app messages, ensuring that users receive timely and relevant information.
+Map Categorical Data: Convert categorical data, such as make, model, fuel type, transmission, body type, and exterior color, into numerical format using techniques like one-hot encoding. This process assigns a binary variable (0 or 1) to each category, enabling the model to interpret categorical data effectively.
 
-Key notifications include:
+Normalize Numerical Values: Normalize numerical variables, such as manufactured year, registered year, mileage, number of previous owners, and engine capacity, using techniques like scikit-learn's min-max scaler. Normalization brings these variables to a comparable scale, improving model efficiency and performance.
 
-- **Account Activity**: Users receive notifications for account-related activities such as successful registration, account verification, and password changes.
-- **Listing Updates**: Sellers are notified about important listing events, including new bids, offers, and listing status changes.
-- **Payment Notifications**: Users receive confirmations for successful payments, refunds, and cancellations.
-- **Auction Reminders**: Bidders and sellers are reminded of upcoming auction end times, helping them stay engaged and take timely actions.
-- **Inspection Reports**: Sellers and potential buyers receive notifications when an inspection report is completed and available for viewing.
-- **Price Alerts**: Users can set price alerts for specific vehicle models, receiving notifications when listings match their desired price range.
+Shuffle Dataset: Shuffle the dataset to create more generalized chunks of data for training and testing
+the model, enhancing its robustness and effectiveness.
 
-The notification feature enhances user engagement and ensures that users are well-informed about their activities and interactions within the system.
+By completing these preprocessing steps, the dataset is optimized and ready for input into the linear
+regression model, facilitating accurate and reliable price predictions for vehicle listings.
 
-## 3.27 Ratings and Reviews Feature
+## 1.5 TRAIN THE MODEL
 
-The ratings and reviews feature allows users to provide feedback on their experiences with sellers and buyers. After completing a transaction, users can rate the other party based on various criteria such as communication, transaction smoothness, and vehicle condition accuracy.
+After preprocessing, the next steps involve:
 
-Users can also leave detailed reviews, sharing their experiences and insights with the community. These reviews are displayed on seller profiles and listing pages, helping potential buyers and sellers make informed decisions based on the feedback provided by previous users.
+Splitting the Data: Divide the dataset into training and testing sets to independently validate the model's performance. 
 
-To maintain the integrity and authenticity of ratings and reviews, the system employs moderation mechanisms to prevent fraudulent or biased feedback. This feature promotes transparency and accountability within the marketplace, fostering trust and confidence among users.
+Training the Model: Apply a linear regression algorithm to the training data. This entails fitting the model by estimating coefficients for each feature, minimizing the error between predicted and actual prices. Linear regression is a statistical method that models the relationship between a dependent variable (such as vehicle price) and one or more independent variables (features) using a linear function. For predicting vehicle value, the model interprets input features like make, model, year, mileage, etc., to estimate the vehicle's sale price accurately.
 
-## 3.28 Reporting Issues Feature
+## 1.6 MODEL EVALUATION
 
-The reporting issues feature allows users to report any problems or concerns related to their transactions or interactions within the system. Users can submit detailed reports describing the issue, including relevant information such as transaction details, user interactions, and supporting evidence.
+The model uses the predict method on the test data to generate predictions for the dependent variable. developer calculates the R-squared value using the r2_score function from the sklearn.metrics module. The R-squared, or coefficient of determination, measures the proportion of the variance in the dependent variable that is predictable from the independent variables. It provides an indication of goodness of fit and the percentage of the response variable variation that is explained by the linear model. 
 
-The system's support team reviews and investigates reported issues, taking appropriate actions to resolve them. This may include mediation between parties, issuing refunds, or implementing corrective measures to address the problem.
+The formula used is:
+![MODEL EVALUATION](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhHLpjhrrXs-fcd0Ums3tg9w37FMZ5HbOjZN3yPqTO7TQOT7MYDWFuXmJ3CiAme4tv0DbKXq6UXJjApHuUTRSHumCscU4iiEiPWYq2BJ8D70iMuw16hy5laYjEjVREH2VdPYrbCM_sfR_6flabM7lpOZvz4aoGp1XsMNgLLwpfrxNKxw4OSMJeA-F2SdgRp/s16000/Screenshot%202024-05-07%20141413.png)
+where the Sum of Squared Residuals is the sum of the squares of the model prediction errors, and the Total Sum of Squares is the sum of the squares of the difference between each dependent variable value and the mean of the dependent variable.
 
-By providing a structured process for reporting and resolving issues, the system ensures that user concerns are addressed promptly and fairly, enhancing overall user satisfaction and trust in the platform.
+## 1.7 SERVER THE MODEL
 
-## 3.29 Privacy Policy and Terms of Service
+For the price prediction server developer has chosen Python as the main technology. RESTful api layer has been layer using Fastapi freamwork. This server can serve response of predicted value when input features are provided. This machine learning model is implemented a way that admins of the system can interact with the lifecycle of the model training process through the API endpoints.
 
-The system includes comprehensive privacy policy and terms of service documents, outlining the rights and responsibilities of users and the platform. These documents provide clear guidelines on data usage, user conduct, and the platform's commitment to protecting user privacy.
+## 1.8 INTEGRATION INTO THE APPLICATION
 
-Users are required to review and accept the privacy policy and terms of service during the registration process, ensuring that they are aware of the platform's policies and agree to abide by them. This helps establish a transparent and trustworthy relationship between the platform and its users.
+For the price prediction server, the developer chose Python as the primary technology. The RESTful API layer was built using the FastAPI framework.
 
-## 3.30 Help and Support Feature
+This server can efficiently serve responses for predicted values when input features are provided. Additionally, the machine learning model was implemented in a manner that allows administrators of the system to interact with the lifecycle of the model training process through API endpoints. This enables administrators to manage model training, evaluation, and updates seamlessly within the system.
 
-The help and support feature provides users with access to a range of resources and assistance options to address their questions and concerns. This feature includes:
+![MODEL EVALUATION](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjHrTHnhvG39QhdPWrPY0ANbXCyvzA6o8pNU5N8n1vgvlvTc0FbF23DDvLhUjtJ7u6Ki4S7c-F_JmtDT4Q6_-MJ8QwfhFvrxHcMpUMUMbMVPtnBtGfDG5wu3VKBga3hKqe1AC-RWvKBLPoGxovjxtLe68f1RQkeKOGwH26kZHYo4H79JWK3sTYqJ3IF3dSJ/s1652/system%20settings.png)
 
-- **FAQ Section**: A comprehensive FAQ section addressing common questions and issues related to account management, listing creation, payments, and more.
-- **User Guides**: Detailed user guides and tutorials offering step-by-step instructions for various platform features and processes.
-- **Support Tickets**: Users can submit support tickets for specific issues or inquiries, receiving assistance from the system's support team.
-- **Live Chat**: A live chat option allowing users to communicate with support representatives in real-time for immediate assistance.
+# DEPLOYMENT AND MONITORING:
+The fully developed platform will be deployed and monitored to ensure smooth operation and
+functionality. The deployment will involve setting up the environment on AWS EC2 instances for
+different components—Python model, Node.js REST API, and the React client—to ensure continuous
+uptime and public accessibility. 
 
-The help and support feature ensures that users have access to the information and assistance they need to navigate the platform effectively and resolve any issues they may encounter.
+
 
